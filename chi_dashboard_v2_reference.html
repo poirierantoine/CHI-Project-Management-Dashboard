@@ -1,0 +1,3087 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHI — Project Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --sf: #fff;
+      --b: rgba(0, 0, 0, 0.07);
+      --bm: rgba(0, 0, 0, 0.13);
+      --tx: #1a1916;
+      --mu: #888680;
+      --fa: #c0beba;
+      --gn: #4a8c2a;
+      --gb: #eef5e8;
+      --am: #b07010;
+      --ab: #fdf3e0;
+      --rd: #c0392b;
+      --rb: #fdecea;
+      --bl: #1a5fa8;
+      --bb: #e8f0fb;
+      --dm: #c0bfba;
+      --db: #f5f4f0;
+      --or: #c05a10;
+      --ob: #fdeee0;
+      --r: 6px;
+      --rl: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      background: var(--bg);
+      color: var(--tx);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* TOPBAR */
+    .tb {
+      height: 52px;
+      background: var(--sf);
+      border-bottom: 0.5px solid var(--bm);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 0;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .logo {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      padding-right: 20px;
+      border-right: 0.5px solid var(--b);
+      margin-right: 16px;
+      white-space: nowrap;
+    }
+
+    .logo em {
+      font-weight: 300;
+      color: var(--mu);
+      font-style: normal;
+    }
+
+    .tnav {
+      display: flex;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .tnb {
+      padding: 5px 11px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      border-radius: var(--r);
+      border: none;
+      background: transparent;
+      color: var(--mu);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .tnb:hover {
+      background: var(--bg);
+    }
+
+    .tnb.active {
+      background: var(--tx);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .tbr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wkp {
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      background: var(--ab);
+      color: var(--am);
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .eas {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--mu);
+    }
+
+    .eas select {
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 4px 8px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--bm);
+      background: var(--bg);
+      color: var(--tx);
+    }
+
+    /* LAYOUT */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sb {
+      width: 220px;
+      background: var(--sf);
+      border-right: 0.5px solid var(--b);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .ct {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    .sbs {
+      padding: 13px 12px 6px;
+    }
+
+    .sbl {
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--fa);
+      font-weight: 500;
+      margin-bottom: 7px;
+    }
+
+    .sbr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 7px;
+      border-radius: var(--r);
+      margin-bottom: 2px;
+    }
+
+    .sbrl {
+      font-size: 12px;
+      color: var(--mu);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sbrv {
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .sd {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    .sbdiv {
+      height: 0.5px;
+      background: var(--b);
+      margin: 6px 12px;
+    }
+
+    .subrow {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 5px;
+      padding: 0 12px;
+    }
+
+    .subname {
+      font-size: 11px;
+      color: var(--mu);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tick {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 8px;
+      font-weight: 500;
+    }
+
+    .td {
+      background: var(--gb);
+      color: var(--gn);
+    }
+
+    .tm {
+      background: var(--rb);
+      color: var(--rd);
+    }
+
+    /* CAPACITY */
+    .caprow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+      margin-bottom: 6px;
+    }
+
+    .capdot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .capname {
+      font-size: 11px;
+      color: var(--mu);
+      width: 68px;
+      flex-shrink: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .capbar {
+      flex: 1;
+      height: 4px;
+      background: var(--b);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .capfill {
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(26, 25, 22, 0.28);
+    }
+
+    .caph {
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      color: var(--fa);
+      text-align: right;
+      flex-shrink: 0;
+      white-space: nowrap;
+      min-width: 44px;
+    }
+
+    /* TABLE */
+    .tblw {
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background: var(--sf);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--fa);
+      text-align: left;
+      padding: 9px 9px 7px;
+      border-bottom: 0.5px solid var(--bm);
+      white-space: nowrap;
+      z-index: 5;
+      letter-spacing: .02em;
+    }
+
+    tbody tr {
+      border-bottom: 0.5px solid var(--b);
+      transition: background .1s;
+      cursor: pointer;
+    }
+
+    tbody tr:hover td {
+      background: #faf9f6;
+    }
+
+    tbody tr.exp td {
+      background: #faf9f6;
+    }
+
+    tbody tr.dorm td {
+      opacity: .5;
+    }
+
+    td {
+      padding: 7px 9px;
+      vertical-align: top;
+    }
+
+    .pn {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .ps {
+      font-size: 11px;
+      color: var(--mu);
+      margin-top: 2px;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .stxt {
+      font-size: 12px;
+      color: var(--mu);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .sdlg {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .av {
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      font-size: 8px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .hb {
+      width: 46px;
+      height: 4px;
+      background: var(--b);
+      border-radius: 2px;
+      margin-bottom: 3px;
+    }
+
+    .hf {
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    .hnum {
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: var(--mu);
+    }
+
+    .bdg {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .bdg-d {
+      background: var(--db);
+      color: var(--dm);
+    }
+
+    .bdg-p {
+      background: var(--bb);
+      color: var(--bl);
+    }
+
+    .bdg-n {
+      background: var(--ab);
+      color: var(--am);
+    }
+
+    .bdg-pnd {
+      background: var(--ab);
+      color: var(--am);
+    }
+
+    /* DETAIL */
+    .detr td {
+      padding: 0;
+    }
+
+    .deti {
+      padding: 14px 18px 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      background: #f5f4f0;
+      border-top: 2px solid var(--bm);
+    }
+
+    .dlbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--fa);
+      font-weight: 500;
+      margin-bottom: 7px;
+    }
+
+    .dtr {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .drl {
+      font-size: 10px;
+      color: var(--fa);
+      margin-left: auto;
+    }
+
+    .dh {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    .dhw {
+      color: var(--fa);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      width: 40px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+
+    .dht {
+      color: var(--mu);
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .da {
+      font-size: 12px;
+      color: var(--mu);
+      margin-bottom: 4px;
+      line-height: 1.4;
+      border-left: 2px solid var(--b);
+      padding-left: 7px;
+    }
+
+    .daw {
+      font-weight: 500;
+      color: var(--tx);
+    }
+
+    /* PROJ TOGGLE */
+    .proj-toggle {
+      display: flex;
+      gap: 4px;
+      padding: 10px 12px 8px;
+      border-bottom: 0.5px solid var(--b);
+      background: var(--sf);
+      flex-shrink: 0;
+    }
+
+    .ptb {
+      padding: 4px 12px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      border-radius: var(--r);
+      border: 0.5px solid var(--bm);
+      background: transparent;
+      color: var(--mu);
+      cursor: pointer;
+    }
+
+    .ptb.active {
+      background: var(--tx);
+      color: #fff;
+      border-color: var(--tx);
+    }
+
+    /* TIMELINE */
+    .tlv {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 20px;
+    }
+
+    .tlc {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .tlzoom {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--mu);
+    }
+
+    .tlzb {
+      width: 22px;
+      height: 22px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--bm);
+      background: var(--sf);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mu);
+    }
+
+    .tlzb:hover {
+      background: var(--bg);
+    }
+
+    .tlscroll {
+      overflow-x: auto;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .tlinner {
+      min-width: 600px;
+    }
+
+    .tlhead {
+      display: flex;
+      position: sticky;
+      top: 0;
+      background: var(--sf);
+      z-index: 3;
+      border-bottom: 0.5px solid var(--bm);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+
+    .tlnc {
+      flex-shrink: 0;
+      font-size: 10px;
+      color: var(--fa);
+    }
+
+    .tlmg {
+      flex: 1;
+      display: flex;
+    }
+
+    .tlmcell {
+      font-size: 10px;
+      color: var(--fa);
+      text-align: center;
+      border-left: 0.5px solid var(--b);
+      padding: 2px 4px;
+    }
+
+    .tlrow {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      height: 22px;
+    }
+
+    .tlns {
+      flex-shrink: 0;
+      font-size: 11px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-right: 8px;
+    }
+
+    .tltrack {
+      flex: 1;
+      position: relative;
+      height: 22px;
+    }
+
+    .tlbar {
+      position: absolute;
+      height: 6px;
+      top: 8px;
+      border-radius: 3px;
+      opacity: .4;
+    }
+
+    .tlmk {
+      position: absolute;
+      top: 2px;
+      width: 2px;
+      height: 18px;
+      border-radius: 1px;
+    }
+
+    .tllbl {
+      position: absolute;
+      font-size: 9px;
+      white-space: nowrap;
+      transform: translateX(-50%);
+      top: -11px;
+      pointer-events: none;
+    }
+
+    .todayln {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--rd);
+      opacity: .5;
+      z-index: 2;
+    }
+
+    .tllegend {
+      display: flex;
+      gap: 12px;
+      font-size: 10px;
+      color: var(--fa);
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .tllegend span {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* ALLOC */
+    .alcv {
+      overflow-y: auto;
+      flex: 1;
+      padding: 16px 20px;
+    }
+
+    .altabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 14px;
+      border-bottom: 0.5px solid var(--b);
+      padding-bottom: 10px;
+    }
+
+    .atab {
+      padding: 5px 13px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      border-radius: var(--r);
+      border: none;
+      background: transparent;
+      color: var(--mu);
+      cursor: pointer;
+    }
+
+    .atab.active {
+      background: var(--tx);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* AGENDA BLOCK */
+    .agenda-block {
+      background: var(--sf);
+      border: 0.5px solid var(--bm);
+      border-radius: var(--rl);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .agenda-head {
+      padding: 10px 14px;
+      border-bottom: 0.5px solid var(--b);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .agenda-head:hover {
+      background: #faf9f6;
+    }
+
+    .agenda-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--tx);
+      flex: 1;
+    }
+
+    .agenda-count {
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      background: var(--ab);
+      color: var(--am);
+      padding: 1px 7px;
+      border-radius: 20px;
+    }
+
+    .agenda-body {
+      padding: 12px 14px;
+      display: none;
+    }
+
+    .agenda-body.open {
+      display: block;
+    }
+
+    .agenda-item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 0.5px solid var(--b);
+    }
+
+    .agenda-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .agenda-who {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--tx);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .agenda-role {
+      font-size: 10px;
+      color: var(--fa);
+      font-weight: 400;
+    }
+
+    .agenda-txt {
+      font-size: 12px;
+      color: var(--mu);
+      line-height: 1.5;
+    }
+
+    /* PEOPLE GRID */
+    .pgrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .pcard {
+      background: var(--sf);
+      border: 0.5px solid var(--bm);
+      border-radius: var(--rl);
+      padding: 13px 15px;
+    }
+
+    .pch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .pav {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .pnt {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .prt {
+      font-size: 11px;
+      color: var(--mu);
+    }
+
+    .pemoji {
+      font-size: 16px;
+      margin-left: auto;
+    }
+
+    .avtag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 9px;
+    }
+
+    /* SCHEDULE GRID */
+    .sgrid {
+      margin-bottom: 9px;
+    }
+
+    .sghead {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .sgday {
+      font-size: 9px;
+      text-align: center;
+      color: var(--fa);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .sgbody {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+    }
+
+    .sgcol {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sgcell {
+      height: 12px;
+      border-radius: 2px;
+      background: var(--bg);
+      border: 0.5px solid var(--b);
+    }
+
+    .sgcell.on {
+      background: var(--gb);
+      border-color: rgba(74, 140, 42, .3);
+    }
+
+    .sgcell.on-am {
+      background: var(--ab);
+      border-color: rgba(176, 112, 16, .3);
+    }
+
+    .sgcell.on-rd {
+      background: var(--rb);
+      border-color: rgba(192, 57, 43, .2);
+    }
+
+    .sglbl {
+      font-size: 8px;
+      color: var(--fa);
+      margin-top: 1px;
+    }
+
+    .plbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--fa);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .pprow {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 3px;
+      font-size: 12px;
+      color: var(--mu);
+    }
+
+    .pph {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--fa);
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .pnote {
+      font-size: 11px;
+      color: var(--fa);
+      line-height: 1.4;
+      margin-bottom: 5px;
+      padding-left: 7px;
+      border-left: 1.5px solid var(--b);
+    }
+
+    .blkn {
+      font-size: 11px;
+      background: var(--rb);
+      color: var(--rd);
+      padding: 4px 8px;
+      border-radius: var(--r);
+      margin-top: 7px;
+      line-height: 1.4;
+    }
+
+    .miss {
+      font-size: 11px;
+      color: var(--rd);
+      background: var(--rb);
+      padding: 3px 8px;
+      border-radius: var(--r);
+      margin-top: 7px;
+    }
+
+    .pofree {
+      font-size: 12px;
+      color: var(--mu);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ALLOC GRID */
+    .aplist {}
+
+    .apsec {
+      margin-bottom: 14px;
+    }
+
+    .aphead {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 12px;
+      background: var(--sf);
+      border: 0.5px solid var(--bm);
+      border-radius: var(--rl) var(--rl) 0 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .aphead:hover {
+      background: #faf9f6;
+    }
+
+    .aptitle {
+      font-size: 13px;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .apmeta {
+      font-size: 11px;
+      color: var(--mu);
+    }
+
+    .aphase {
+      font-size: 11px;
+      color: var(--mu);
+      border: 0.5px solid var(--b);
+      border-radius: 3px;
+      padding: 1px 6px;
+      cursor: pointer;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .aphase:focus {
+      border-color: var(--bm);
+      background: var(--sf);
+      outline: none;
+    }
+
+    .apinds {
+      display: flex;
+      gap: 5px;
+    }
+
+    .apind {
+      font-size: 12px;
+      cursor: default;
+    }
+
+    .apchev {
+      font-size: 10px;
+      color: var(--fa);
+    }
+
+    .apbody {
+      background: var(--sf);
+      border: 0.5px solid var(--bm);
+      border-top: none;
+      border-radius: 0 0 var(--rl) var(--rl);
+      overflow: hidden;
+      display: none;
+    }
+
+    .apbody.open {
+      display: block;
+    }
+
+    .aprow {
+      display: grid;
+      grid-template-columns: 190px 65px 1fr 115px;
+      border-bottom: 0.5px solid var(--b);
+      align-items: stretch;
+    }
+
+    .aprow:last-child {
+      border-bottom: none;
+    }
+
+    .aprow.aph {
+      background: var(--bg);
+    }
+
+    .apc {
+      padding: 7px 11px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      border-right: 0.5px solid var(--b);
+    }
+
+    .apc:last-child {
+      border-right: none;
+    }
+
+    .apc.hc {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--fa);
+      font-weight: 500;
+    }
+
+    .appers {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .aphi {
+      width: 48px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 4px 6px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--b);
+      background: var(--bg);
+      color: var(--tx);
+      text-align: center;
+    }
+
+    .aphi:focus {
+      border-color: var(--bm);
+      background: var(--sf);
+      outline: none;
+    }
+
+    .apni {
+      width: 100%;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 4px 8px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--b);
+      background: var(--bg);
+      color: var(--tx);
+    }
+
+    .apni:focus {
+      border-color: var(--bm);
+      background: var(--sf);
+      outline: none;
+    }
+
+    .edat {
+      font-size: 10px;
+      color: var(--fa);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .edby {
+      color: var(--bl);
+      font-size: 10px;
+    }
+
+    .aptot {
+      display: flex;
+      gap: 14px;
+      padding: 7px 11px;
+      background: var(--bg);
+      font-size: 11px;
+      color: var(--mu);
+      font-family: 'DM Mono', monospace;
+      flex-wrap: wrap;
+    }
+
+    .acbtn {
+      font-size: 11px;
+      color: var(--mu);
+      border: 0.5px dashed var(--bm);
+      background: transparent;
+      padding: 5px 11px;
+      border-radius: var(--r);
+      cursor: pointer;
+      margin: 6px 11px;
+    }
+
+    .acbtn:hover {
+      background: var(--bg);
+    }
+
+    /* MILESTONE SECTION */
+    .mssec {
+      border-top: 0.5px solid var(--b);
+      padding: 8px 11px;
+    }
+
+    .msrow {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .mslbl {
+      flex: 1;
+      color: var(--mu);
+    }
+
+    .msdate {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--fa);
+      padding: 3px 6px;
+      border: 0.5px solid var(--b);
+      border-radius: 3px;
+      background: var(--bg);
+    }
+
+    .mstype {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .mstype-m {
+      background: var(--ab);
+      color: var(--am);
+    }
+
+    .mstype-d {
+      background: var(--rb);
+      color: var(--rd);
+    }
+
+    /* INDICATORS */
+    .ind-chat {
+      font-size: 11px;
+      color: var(--gn);
+      background: var(--gb);
+      padding: 1px 5px;
+      border-radius: 3px;
+      cursor: help;
+      position: relative;
+    }
+
+    .ind-flag {
+      font-size: 11px;
+      color: var(--rd);
+      background: var(--rb);
+      padding: 1px 5px;
+      border-radius: 3px;
+      cursor: help;
+    }
+
+    /* CHECK-IN */
+    .ciw {
+      overflow-y: auto;
+      flex: 1;
+      padding: 20px;
+    }
+
+    .cii {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .cim {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .cimb {
+      flex: 1;
+      padding: 9px 13px;
+      border: 0.5px solid var(--bm);
+      border-radius: var(--rl);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--mu);
+      background: var(--sf);
+      transition: all .15s;
+      font-family: 'DM Sans', sans-serif;
+      text-align: left;
+    }
+
+    .cimb:hover {
+      background: var(--bg);
+    }
+
+    .cimb.active {
+      background: var(--tx);
+      color: #fff;
+      border-color: var(--tx);
+    }
+
+    .cims {
+      font-size: 11px;
+      opacity: .6;
+      margin-top: 2px;
+    }
+
+    .cib {
+      background: var(--sf);
+      border: 0.5px solid var(--bm);
+      border-radius: var(--rl);
+      padding: 15px 17px;
+      margin-bottom: 10px;
+    }
+
+    .cit {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--mu);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 11px;
+    }
+
+    .fl {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .flr {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .fll {
+      font-size: 12px;
+      color: var(--mu);
+    }
+
+    .g2 {
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 7px;
+    }
+
+    .g3 {
+      display: grid;
+      grid-template-columns: 1fr 80px 80px;
+      gap: 7px;
+    }
+
+    select,
+    input[type=number],
+    input[type=text],
+    input[type=date],
+    textarea {
+      width: 100%;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 7px 9px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--bm);
+      background: var(--bg);
+      color: var(--tx);
+      outline: none;
+      transition: border .15s;
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: rgba(0, 0, 0, .28);
+      background: var(--sf);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 48px;
+    }
+
+    .pr {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      border-radius: 20px;
+      border: 0.5px solid var(--bm);
+      cursor: pointer;
+      background: var(--sf);
+      color: var(--mu);
+    }
+
+    .pill-g {
+      background: var(--gb);
+      color: var(--gn);
+    }
+
+    .pill-a {
+      background: var(--ab);
+      color: var(--am);
+    }
+
+    .pill-r {
+      background: var(--rb);
+      color: var(--rd);
+    }
+
+    .pill.sel {
+      outline: 2px solid var(--tx);
+      outline-offset: 1px;
+    }
+
+    .pb {
+      background: var(--bg);
+      border: 0.5px solid var(--b);
+      border-radius: var(--r);
+      padding: 9px 11px;
+      margin-bottom: 7px;
+    }
+
+    .addb {
+      width: 100%;
+      padding: 6px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--mu);
+      border: 0.5px dashed var(--bm);
+      border-radius: var(--r);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .addb:hover {
+      background: var(--bg);
+    }
+
+    .subb {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--tx);
+      color: #fff;
+      border: none;
+      border-radius: var(--rl);
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .subb:hover {
+      opacity: .85;
+    }
+
+    /* SCHEDULE IN CHECKIN */
+    .sgci {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+
+    .cdayci {
+      border: 0.5px solid var(--bm);
+      border-radius: var(--r);
+      padding: 6px 4px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--sf);
+    }
+
+    .cdayci.on {
+      background: var(--gb);
+      border-color: rgba(74, 140, 42, .4);
+    }
+
+    .cdayn {
+      font-size: 10px;
+      color: var(--mu);
+      margin-bottom: 3px;
+    }
+
+    .cdayblocks {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cdayblock {
+      height: 10px;
+      border-radius: 2px;
+      background: var(--bg);
+      border: 0.5px solid var(--b);
+      font-size: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fa);
+      cursor: pointer;
+    }
+
+    .cdayblock.on {
+      background: var(--gb);
+      border-color: rgba(74, 140, 42, .3);
+      color: var(--gn);
+    }
+
+    /* EMOJI */
+    .emojis {
+      display: flex;
+      gap: 6px;
+    }
+
+    .emoj {
+      font-size: 20px;
+      padding: 4px 8px;
+      border-radius: var(--r);
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      background: var(--bg);
+    }
+
+    .emoj:hover {
+      background: var(--sf);
+      border-color: var(--bm);
+    }
+
+    .emoj.sel {
+      border-color: var(--tx);
+      background: var(--sf);
+    }
+
+    /* MS IN CHECKIN */
+    .ms-ci-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .ms-ci-row input {
+      flex: 2;
+    }
+
+    .ms-ci-row input[type=date] {
+      flex: 1.5;
+    }
+
+    .ms-ci-row select {
+      flex: 1;
+    }
+
+    .ms-ci-rm {
+      font-size: 16px;
+      color: var(--fa);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+
+    .ms-ci-rm:hover {
+      color: var(--rd);
+    }
+
+    .goal-pend {
+      background: var(--ab);
+      border: 0.5px solid rgba(176, 112, 16, .3);
+      border-radius: var(--r);
+      padding: 8px 10px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--am);
+    }
+
+    /* MONTHLY REVIEW */
+    .rv-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .rv-sel {
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 6px 10px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--bm);
+      background: var(--bg);
+      color: var(--tx);
+    }
+
+    .rv-save {
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 6px 14px;
+      border-radius: var(--r);
+      border: 0.5px solid var(--bm);
+      background: var(--sf);
+      color: var(--tx);
+      cursor: pointer;
+    }
+
+    .rv-save:hover {
+      background: var(--bg);
+    }
+
+    .rv-saved-badge {
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      background: var(--gb);
+      color: var(--gn);
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .rv-section {
+      margin-bottom: 24px;
+    }
+
+    .rv-section-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--tx);
+      margin-bottom: 4px;
+    }
+
+    .rv-section-sub {
+      font-size: 12px;
+      color: var(--mu);
+      margin-bottom: 14px;
+    }
+
+    .rv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .rv-card {
+      background: var(--sf);
+      border: 0.5px solid var(--bm);
+      border-radius: var(--rl);
+      padding: 13px 15px;
+    }
+
+    .rv-card-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .rv-card-sub {
+      font-size: 11px;
+      color: var(--mu);
+      margin-bottom: 10px;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .rv-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .rv-lbl {
+      color: var(--mu);
+      flex: 1;
+    }
+
+    .rv-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--tx);
+      flex-shrink: 0;
+    }
+
+    .rv-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .rv-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .outcome-pill {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .outcome-hit {
+      background: var(--gb);
+      color: var(--gn);
+    }
+
+    .outcome-partial {
+      background: var(--ab);
+      color: var(--am);
+    }
+
+    .outcome-missed {
+      background: var(--rb);
+      color: var(--rd);
+    }
+
+    .outcome-pending {
+      background: var(--db);
+      color: var(--dm);
+    }
+
+    .rv-flag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: var(--rb);
+      color: var(--rd);
+    }
+
+    .rv-warn {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: var(--ab);
+      color: var(--am);
+    }
+
+    .rv-ok {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: var(--gb);
+      color: var(--gn);
+    }
+
+    .rv-divider {
+      height: 0.5px;
+      background: var(--b);
+      margin: 18px 0;
+    }
+
+    .rv-people-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--b);
+      font-size: 12px;
+    }
+
+    .rv-people-row:last-child {
+      border-bottom: none;
+    }
+
+    .rv-person-name {
+      width: 160px;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    .rv-bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: var(--b);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rv-bar-fill {
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(26, 25, 22, 0.25);
+    }
+
+    .rv-bar-over {
+      background: var(--rd);
+      opacity: .6;
+    }
+
+    .rv-bar-ok {
+      background: var(--gn);
+      opacity: .5;
+    }
+
+    .tip-box {
+      background: var(--bb);
+      border: 0.5px solid rgba(26, 95, 168, .2);
+      border-radius: var(--r);
+      padding: 9px 11px;
+      font-size: 12px;
+      color: var(--bl);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tb">
+    <div class="logo">CHI <em>/ dashboard</em></div>
+    <div class="tnav">
+      <button class="tnb active" onclick="switchView('projects',this)">Projects</button>
+      <button class="tnb" onclick="switchView('allocation',this)">Allocation</button>
+      <button class="tnb" onclick="switchView('checkin',this)">Check-in</button>
+    </div>
+    <div class="tbr">
+      <span class="wkp">Week 17 — Apr 2026</span>
+      <div class="eas">
+        <span>Editing as</span>
+        <select id="edsel" onchange="currentEditor=this.value; if(document.getElementById('view-checkin').classList.contains('active')) checkCiLock();">
+          <option value="">Select...</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="sb">
+      <div class="sbs">
+        <div class="sbl">Project status</div>
+        <div class="sbr"><span class="sbrl"><span class="sd" style="background:var(--gn)"></span>On track</span><span id="cnt-green"
+            class="sbrv" style="color:var(--gn)">—</span></div>
+        <div class="sbr"><span class="sbrl"><span class="sd" style="background:var(--am)"></span>Needs
+            discussion</span><span id="cnt-amber" class="sbrv" style="color:var(--am)">—</span></div>
+        <div class="sbr"><span class="sbrl"><span class="sd" style="background:var(--rd)"></span>Urgent</span><span id="cnt-red"
+            class="sbrv" style="color:var(--rd)">—</span></div>
+        <div class="sbr"><span class="sbrl"><span class="sd" style="background:var(--dm)"></span>Dormant</span><span id="cnt-dormant"
+            class="sbrv" style="color:var(--dm)">—</span></div>
+      </div>
+      <div class="sbdiv"></div>
+      <div class="sbs">
+        <div class="sbl">Hours</div>
+        <div class="sbr"><span class="sbrl">This week</span><span id="sb-week-h" class="sbrv">—</span></div>
+        <div class="sbr"><span class="sbrl">This month</span><span id="sb-mo-h" class="sbrv">—</span></div>
+      </div>
+      <div class="sbdiv"></div>
+      <div class="sbs" style="padding-bottom:4px;">
+        <div class="sbl">Friday check-ins</div>
+      </div>
+      <div id="sublist" style="padding-bottom:8px;"></div>
+      <div class="sbdiv"></div>
+      <div class="sbs" style="padding-bottom:4px;display:flex;align-items:center;justify-content:space-between;">
+        <div class="sbl" style="margin-bottom:0;">Capacity next week</div>
+        <button onclick="toggleManageMode()" id="manage-btn"
+          style="font-size:10px;color:var(--bl);background:transparent;border:0.5px solid rgba(26,95,168,.25);border-radius:3px;padding:1px 6px;cursor:pointer;">Manage</button>
+      </div>
+      <div id="caplist" style="padding-bottom:6px;"></div>
+      <div id="manage-notice" style="display:none;padding:0 12px 12px;font-size:11px;color:var(--am);line-height:1.4;">
+        Manage mode: mark people inactive to remove them from check-ins and capacity. Click again to deactivate.</div>
+    </div>
+
+    <div class="ct">
+      <!-- PROJECTS -->
+      <div id="view-projects" class="view active">
+        <div class="proj-toggle">
+          <button class="ptb active" onclick="switchProjTab('table',this)">Table</button>
+          <button class="ptb" onclick="switchProjTab('timeline',this)">Timeline</button>
+        </div>
+        <div id="ptab-table" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+          <div class="tblw">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:30px;padding-left:12px;"></th>
+                  <th style="min-width:195px;">Project</th>
+                  <th style="width:110px;">Phase</th>
+                  <th style="width:200px;">Weekly status</th>
+                  <th style="width:150px;">Team</th>
+                  <th style="width:88px;">Hours</th>
+                </tr>
+              </thead>
+              <tbody id="ptbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="ptab-timeline" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+          <div class="tlv">
+            <div class="tlc">
+              <span style="font-size:12px;color:var(--mu);">Zoom:</span>
+              <div class="tlzoom">
+                <button class="tlzb" onclick="zoomTl(-1)">−</button>
+                <span id="tlzlbl" style="font-size:12px;color:var(--mu);min-width:40px;text-align:center;">10wk</span>
+                <button class="tlzb" onclick="zoomTl(1)">+</button>
+              </div>
+              <span style="font-size:11px;color:var(--fa);">Scroll to see more. Click milestone to edit.</span>
+            </div>
+            <div class="tlscroll" id="tlscroll">
+              <div class="tlinner" id="tlinner">
+                <div class="tlhead">
+                  <div class="tlnc" id="tlnc"></div>
+                  <div class="tlmg" id="tlmg"></div>
+                </div>
+                <div id="tlrows"></div>
+              </div>
+            </div>
+            <div class="tllegend">
+              <span><span
+                  style="width:10px;height:3px;background:#888;display:inline-block;border-radius:2px;opacity:.4;"></span>Project
+                span</span>
+              <span><span
+                  style="width:2px;height:10px;background:var(--am);display:inline-block;"></span>Milestone</span>
+              <span><span
+                  style="width:2px;height:10px;background:var(--rd);display:inline-block;"></span>Deadline</span>
+              <span><span
+                  style="width:1px;height:10px;background:var(--rd);display:inline-block;opacity:.5;"></span>Today</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALLOCATION -->
+      <div id="view-allocation" class="view">
+        <div class="alcv">
+          <div class="altabs">
+            <button class="atab active" onclick="switchAllocTab('people',this)">People this week</button>
+            <button class="atab" onclick="switchAllocTab('grid',this)">Allocation grid</button>
+            <button class="atab" onclick="switchAllocTab('review',this)">Monthly review</button>
+          </div>
+          <div id="atab-people">
+            <div class="pgrid" id="pgrid"></div>
+          </div>
+          <div id="atab-grid" style="display:none;">
+            <div class="agenda-block" id="agenda-block">
+              <div class="agenda-head" onclick="toggleAgenda()">
+                <span class="agenda-title">Pre-meeting agenda</span>
+                <span class="agenda-count" id="agenda-count">3 items</span>
+                <span id="agenda-chev" style="font-size:10px;color:var(--fa);">▾</span>
+              </div>
+              <div class="agenda-body open" id="agenda-body"></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <span style="font-size:12px;color:var(--mu);">Click a project to expand. Edit hours and notes inline.
+                Changes are attributed.</span>
+              <button class="tnb" style="font-size:12px;border:0.5px solid var(--bm);" onclick="addNewProject()">+
+                Propose project</button>
+            </div>
+            <div id="aplist"></div>
+          </div>
+          <div id="atab-review" style="display:none;">
+            <div id="review-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHECK-IN -->
+      <div id="view-checkin" class="view">
+        <div class="ciw">
+          <div class="cii">
+            <div class="cim">
+              <button class="cimb active" onclick="selMode('c',this)">Contributor check-in<div class="cims">Friday EOD ·
+                  ~5 min</div></button>
+              <button class="cimb" onclick="selMode('pm',this)">PM check-in<div class="cims">Monday EOD · per project
+                </div></button>
+              <button class="cimb" onclick="selMode('po',this)">PO / Tuesday prep<div class="cims">Before Tuesday
+                  meeting</div></button>
+            </div>
+            <div id="form-c"></div>
+            <div id="form-pm" style="display:none;"></div>
+            <div id="form-po" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SC = { green: 'var(--gn)', amber: 'var(--am)', red: 'var(--rd)', gray: 'var(--dm)' };
+    const AVC = [{ bg: '#B5D4F4', fg: '#0C447C' }, { bg: '#C0DD97', fg: '#27500A' }, { bg: '#FAC775', fg: '#633806' }, { bg: '#CECBF6', fg: '#3C3489' }, { bg: '#9FE1CB', fg: '#085041' }, { bg: '#F5C4B3', fg: '#712B13' }, { bg: '#F4C0D1', fg: '#72243E' }, { bg: '#D3D1C7', fg: '#444441' }, { bg: '#B5D4F4', fg: '#0C447C' }, { bg: '#C0DD97', fg: '#27500A' }, { bg: '#FAC775', fg: '#633806' }, { bg: '#CECBF6', fg: '#3C3489' }];
+    const RLBL = { PO: 'Project owner', PM: 'Project manager', C: 'Contributor', Con: 'Consultant', I: 'Informee' };
+    const AVDOTC = { green: 'var(--gn)', amber: 'var(--am)', red: 'var(--rd)', orange: 'var(--or)' };
+    const AVTAGBG = { green: 'var(--gb)', amber: 'var(--ab)', red: 'var(--rb)', orange: 'var(--ob)' };
+    const AVTAGFG = { green: 'var(--gn)', amber: 'var(--am)', red: 'var(--rd)', orange: 'var(--or)' };
+    let PNAMES = [];
+    let currentEditor = '';
+
+    let PROJECTS = [
+      { id: 1, name: 'CABKA Project', phase: 'Planning', goal: 'Complete phase 1 technical setup', goalApproved: true, weekStatus: 'Kick-off done. VM setup in progress.', status: 'green', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Frederik Kjeldsen', r: 'PM' }], contrib: [{ n: 'Maceo G.', r: 'C' }], weekH: 12, moH: 44, proposed: false, dormant: false, color: '#4a8c2a', tl: [.1, .75], marks: [{ l: 'Phase 1 end', t: 'm', d: '2026-05-10' }, { l: 'Handover', t: 'd', d: '2026-06-15' }] },
+      { id: 2, name: 'HI Industry Partner Survey', phase: 'Analysis', goal: 'Talk to contact persons, go through reports', goalApproved: true, weekStatus: 'Frederik meeting contact persons. Two reports reviewed.', status: 'green', celebrate: 'We got all 8 partners to respond — fastest turnaround yet!', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Frederik Kjeldsen', r: 'PM' }], contrib: [{ n: 'Alexis V.', r: 'C' }, { n: 'Lærke T.', r: 'C' }], weekH: 6, moH: 22, proposed: false, dormant: false, color: '#1D9E75', tl: [.05, .6], marks: [{ l: 'Report deadline', t: 'd', d: '2026-05-30' }] },
+      { id: 3, name: 'KogniKit KU', phase: 'Development', goal: 'Finish data analysis, decouple game instances', goalApproved: true, weekStatus: 'Sára vibe-coding new games. Decoupling in progress.', status: 'green', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }, { n: 'Janet Rafner', r: 'PO' }], pm: [{ n: 'Blanka Szöllösi', r: 'PM' }], contrib: [{ n: 'Abel N.', r: 'C' }, { n: 'Thomas H.', r: 'C' }], weekH: 10, moH: 38, proposed: false, dormant: false, color: '#7F77DD', tl: [0, .65], marks: [{ l: 'Pipeline done', t: 'm', d: '2026-04-30' }] },
+      { id: 4, name: 'Quantum readiness chatbot', phase: 'Development', goal: 'Ship internal dev build for review', goalApproved: true, weekStatus: 'Alexander and Chloe aligning on architecture.', status: 'green', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Eleni Karydi', r: 'PM' }], contrib: [{ n: 'Alexander V.', r: 'C' }, { n: 'Chloe L.', r: 'C' }], weekH: 8, moH: 30, proposed: false, dormant: false, color: '#378ADD', tl: [.2, .7], marks: [{ l: 'Internal review', t: 'm', d: '2026-05-15' }] },
+      { id: 5, name: 'Quantum Strategies Chatbot', phase: 'Development', goal: 'Complete content integration', goalApproved: true, weekStatus: '', status: 'green', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Eleni Karydi', r: 'PM' }], contrib: [{ n: 'Chloe L.', r: 'C' }], weekH: 5, moH: 18, proposed: false, dormant: false, color: '#1D9E75', tl: [.25, .72], marks: [] },
+      { id: 6, name: 'Quantum Student Chatbot', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'green', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 3, moH: 10, proposed: false, dormant: false, color: '#5DCAA5', tl: [.3, .75], marks: [] },
+      { id: 7, name: 'Tech Circle Innovation', phase: 'Research', goal: 'Prepare interview guide, run first interviews', goalApproved: true, weekStatus: 'Janet presenting at HHAI. TechCircle interview this week.', status: 'green', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }, { n: 'Janet Rafner', r: 'PO' }], pm: [{ n: 'Morten Røndal', r: 'PM' }], contrib: [{ n: 'Frederik K.', r: 'C' }, { n: 'Lærke T.', r: 'C' }, { n: 'Casper T.', r: 'C' }, { n: 'Alexander V.', r: 'C' }], weekH: 7, moH: 24, proposed: false, dormant: false, color: '#b07010', tl: [.1, .8], marks: [{ l: 'Report draft', t: 'm', d: '2026-06-01' }] },
+      { id: 8, name: 'Operations Task Force', phase: 'Internal', goal: 'Employee handbook with SOPs before summer', goalApproved: true, weekStatus: 'Handbook structure drafted. SOPs in progress.', status: 'green', celebrate: '', decision: 'Need Jacob to approve the new onboarding SOP before it goes to the team.', po: [{ n: 'Morten Røndal', r: 'PO' }], pm: [{ n: 'Morten Røndal', r: 'PM' }], contrib: [{ n: 'Blanka S.', r: 'C' }, { n: 'Frederik K.', r: 'C' }, { n: 'Mille B.', r: 'C' }], weekH: 4, moH: 14, proposed: false, dormant: false, color: '#909090', tl: [0, .55], marks: [{ l: 'Handbook done', t: 'd', d: '2026-06-30' }] },
+      { id: 9, name: 'CHI Chatbot Standardization', phase: 'Scoping', goal: 'Present dev roadmap to Jacob for approval', goalApproved: true, weekStatus: 'Dev roadmap being drafted.', status: 'amber', celebrate: '', decision: 'Need Jacob to block time to review the roadmap before end of April.', po: [{ n: 'Jacob Sherson', r: 'PO' }, { n: 'Morten Røndal', r: 'PO' }], pm: [{ n: 'Alexander Velev', r: 'PM' }], contrib: [], weekH: 2, moH: 6, proposed: false, dormant: false, color: '#EF9F27', tl: [.28, .58], marks: [{ l: 'Roadmap presented', t: 'd', d: '2026-04-30' }] },
+      { id: 10, name: 'CHI In-house RAG', phase: 'Dev — custom GPT', goal: '20 queries evaluated by CHI staff', goalApproved: false, weekStatus: '20 queries to evaluate by CHI staff.', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Morten Røndal', r: 'PO' }], pm: [{ n: 'Casper Thylkjær', r: 'PM' }], contrib: [{ n: 'Alexander V.', r: 'C' }], weekH: 6, moH: 20, proposed: false, dormant: false, color: '#EF9F27', tl: [.22, .62], marks: [{ l: 'Eval complete', t: 'd', d: '2026-05-07' }] },
+      { id: 11, name: 'CrowdThinking Festivals', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Janet Rafner', r: 'PO' }], pm: [{ n: 'Morten Røndal', r: 'PM' }], contrib: [{ n: 'Carina G.', r: 'C' }, { n: 'Lærke T.', r: 'C' }, { n: 'Blanka S.', r: 'I' }], weekH: 4, moH: 14, proposed: false, dormant: false, color: '#EF9F27', tl: [.15, .85], marks: [] },
+      { id: 12, name: 'DigiQ tech infrastructure', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Eleni Karydi', r: 'PM' }], contrib: [{ n: 'Thomas H.', r: 'C' }], weekH: 3, moH: 10, proposed: false, dormant: false, color: '#EF9F27', tl: [.3, .9], marks: [] },
+      { id: 13, name: 'ESG Project', phase: '', goal: '3 page abstract 17/4', goalApproved: true, weekStatus: '3 page abstract submitted.', status: 'amber', celebrate: 'Abstract submitted on time!', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }, { n: 'Janet Rafner', r: 'PO' }], pm: [{ n: 'Frederik Kjeldsen', r: 'PM' }], contrib: [], weekH: 2, moH: 7, proposed: false, dormant: false, color: '#EF9F27', tl: [.25, .5], marks: [{ l: 'Abstract', t: 'd', d: '2026-04-17' }] },
+      { id: 14, name: 'FERC bot', phase: '', goal: 'Two page abstract — conference in May', goalApproved: true, weekStatus: 'Abstract mid April. Conference in May.', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Frederik Kjeldsen', r: 'PM' }], contrib: [{ n: 'Mille B.', r: 'C' }], weekH: 5, moH: 16, proposed: false, dormant: false, color: '#EF9F27', tl: [.2, .65], marks: [{ l: 'Abstract', t: 'd', d: '2026-04-20' }, { l: 'Conference', t: 'm', d: '2026-05-20' }] },
+      { id: 15, name: 'GenAI Box w. Bagger Sørensen', phase: 'Developing', goal: 'Test at Flexwind in May', goalApproved: true, weekStatus: 'Test at Flexwind May.', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Frederik Kjeldsen', r: 'PM' }], contrib: [{ n: 'Alexis V.', r: 'C' }], weekH: 5, moH: 18, proposed: false, dormant: false, color: '#EF9F27', tl: [.15, .65], marks: [{ l: 'Flexwind test', t: 'm', d: '2026-05-22' }] },
+      { id: 16, name: 'HI Consultance Interface', phase: 'Scoping', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 1, moH: 3, proposed: false, dormant: false, color: '#EF9F27', tl: [.35, .75], marks: [] },
+      { id: 17, name: 'HI Manifesto', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Morten Røndal', r: 'PM' }], contrib: [{ n: 'Daniel L.', r: 'C' }, { n: 'Frederik K.', r: 'C' }], weekH: 0, moH: 0, proposed: false, dormant: false, color: '#EF9F27', tl: [0, .9], marks: [] },
+      { id: 18, name: 'Internal GenAI Box', phase: 'Research + dev', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 2, moH: 8, proposed: false, dormant: false, color: '#EF9F27', tl: [.2, .8], marks: [] },
+      { id: 19, name: 'KogniKit AU', phase: '', goal: 'End of month: have something to see and test', goalApproved: false, weekStatus: 'End of month have something to see and test.', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Jacob Sherson', r: 'PO' }], pm: [{ n: 'Blanka Szöllösi', r: 'PM' }], contrib: [{ n: 'Lærke T.', r: 'C' }, { n: 'Sára S.', r: 'C' }], weekH: 6, moH: 20, proposed: false, dormant: false, color: '#EF9F27', tl: [.18, .7], marks: [{ l: 'Demo ready', t: 'd', d: '2026-04-30' }] },
+      { id: 20, name: 'Quantum HR Workflow', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 2, moH: 7, proposed: false, dormant: false, color: '#EF9F27', tl: [.25, .7], marks: [] },
+      { id: 21, name: 'Quantum Jobs', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'amber', celebrate: '', decision: '', po: [{ n: 'Eleni Karydi', r: 'PO' }], pm: [], contrib: [], weekH: 3, moH: 10, proposed: false, dormant: false, color: '#EF9F27', tl: [.2, .85], marks: [] },
+      { id: 22, name: 'AU Connect grant', phase: 'Waiting on answer', goal: 'Get funding, make plan forward', goalApproved: true, weekStatus: 'Application sent. Waiting.', status: 'red', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 5, moH: 14, proposed: false, dormant: true, color: '#c0392b', tl: [.1, .55], marks: [{ l: 'Submission', t: 'd', d: '2026-04-14' }] },
+      { id: 23, name: 'Innobooster', phase: '', goal: '', goalApproved: false, weekStatus: 'Idle.', status: 'gray', celebrate: '', decision: '', po: [{ n: 'Janet Rafner', r: 'PO' }], pm: [{ n: 'Morten Røndal', r: 'PM' }], contrib: [], weekH: 0, moH: 0, proposed: false, dormant: true, color: '#c0bfba', tl: [0, .5], marks: [] },
+      { id: 24, name: 'Innovation Management Project', phase: 'Finished?', goal: '', goalApproved: false, weekStatus: '', status: 'gray', celebrate: '', decision: '', po: [{ n: 'Janet Rafner', r: 'PO' }], pm: [], contrib: [{ n: 'Chloe L.', r: 'C' }], weekH: 0, moH: 0, proposed: false, dormant: true, color: '#c0bfba', tl: [0, .35], marks: [] },
+      { id: 25, name: 'Metacognition Lab study', phase: 'Delivered', goal: 'Move to new architecture?', goalApproved: false, weekStatus: 'Project as good as done. Demo video left.', status: 'gray', celebrate: '', decision: '', po: [{ n: 'Janet Rafner', r: 'PO' }], pm: [{ n: 'Frederik Kjeldsen', r: 'PM' }], contrib: [{ n: 'Mille B.', r: 'C' }], weekH: 0, moH: 0, proposed: false, dormant: true, color: '#c0bfba', tl: [0, .3], marks: [] },
+      { id: 26, name: 'Quantum Dashboard', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'gray', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 0, moH: 0, proposed: false, dormant: true, color: '#c0bfba', tl: [0, .4], marks: [] },
+      { id: 27, name: 'Ringkøbing Skjern Collab', phase: '', goal: '', goalApproved: false, weekStatus: '', status: 'gray', celebrate: '', decision: '', po: [], pm: [], contrib: [], weekH: 0, moH: 0, proposed: false, dormant: true, color: '#c0bfba', tl: [0, .4], marks: [] },
+    ];
+
+    let PEOPLE = [
+      { name: 'Jacob Sherson', ini: 'JS', role: 'po', avail: 'amber', availTxt: 'Not open', totalH: 37, availH: 0, submitted: true, inactive: false, emoji: '😐', schedule: { Mon: [true, true, false], Tue: [true, true, true], Wed: [true, false, false], Thu: [true, true, false], Fri: [true, false, false] }, projs: [], poNote: 'Heads down on grant strategy this week. Available for urgent decisions via Basecamp ping.', pmNote: '', leadership: '' },
+      { name: 'Janet Rafner', ini: 'JR', role: 'po', avail: 'red', availTxt: 'Overloaded (−3h)', totalH: 37, availH: 0, submitted: true, inactive: false, emoji: '🤯', schedule: { Mon: [false, false, false], Tue: [true, true, false], Wed: [false, false, false], Thu: [true, true, true], Fri: [false, false, false] }, projs: [], poNote: 'Deep in HHAI follow-ups. Lots of new connections to bring back. Supervising masters students this week — Basecamp ping is best if you need me.', pmNote: '', leadership: '' },
+      { name: 'Simon Goorney', ini: 'SG', role: 'po', avail: 'green', availTxt: 'Open (4h)', totalH: 37, availH: 4, submitted: false, inactive: false, emoji: '', schedule: { Mon: [true, true, false], Tue: [true, true, false], Wed: [true, true, false], Thu: [false, false, false], Fri: [false, false, false] }, projs: [], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Frederik Brosbøl Kjeldsen', ini: 'FK', role: 'pm', avail: 'amber', availTxt: 'Not open', totalH: 37, availH: 0, submitted: true, inactive: false, emoji: '😐', schedule: { Mon: [true, true, false], Tue: [true, true, true], Wed: [true, true, false], Thu: [true, true, false], Fri: [true, false, false] }, projs: [{ p: 'CABKA Project', h: 4, note: 'Stakeholder updates', nextH: 4 }, { p: 'ESG Project', h: 3, note: 'Abstract submitted!', nextH: 3 }], poNote: '', pmNote: 'ESG abstract was submitted on time, great team effort.', leadership: 'A company called Byforma reached out about HI workshops. Might be worth scoping — could be a new client.' },
+      { name: 'Morten Røndal Olsen', ini: 'MR', role: 'pm', avail: 'amber', availTxt: 'Not open', totalH: 18, availH: 0, submitted: true, inactive: false, emoji: '😐', schedule: { Mon: [true, true, true], Tue: [true, true, false], Wed: [true, true, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [{ p: 'CHI In-house RAG', h: 3, note: 'Strategic oversight', nextH: 2 }, { p: 'Operations Task Force', h: 4, note: 'Handbook coordination', nextH: 4 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Thomas Halgaard', ini: 'TH', role: 'pm', avail: 'green', availTxt: 'Open (4h)', totalH: 37, availH: 4, submitted: true, inactive: false, emoji: '😊', schedule: { Mon: [true, true, false], Tue: [true, true, false], Wed: [true, false, false], Thu: [false, false, false], Fri: [false, false, false] }, projs: [{ p: 'KogniKit KU', h: 4, note: 'Game UI work', nextH: 4 }, { p: 'DigiQ tech infrastructure', h: 3, note: '', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Bianka Szöllösi', ini: 'BS', role: 'pm', avail: 'green', availTxt: 'Open — projects (6h)', totalH: 37, availH: 6, submitted: false, inactive: false, emoji: '', schedule: { Mon: [true, true, false], Tue: [true, false, false], Wed: [false, false, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [{ p: 'KogniKit KU', h: 5, note: '', nextH: 5 }, { p: 'Operations Task Force', h: 2, note: '', nextH: 2 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Eleni Karydi', ini: 'EK', role: 'pm', avail: 'amber', availTxt: 'Not open', totalH: 15, availH: 0, submitted: true, inactive: false, emoji: '😐', schedule: { Mon: [true, true, false], Tue: [true, false, false], Wed: [true, true, false], Thu: [false, false, false], Fri: [false, false, false] }, projs: [{ p: 'Quantum readiness chatbot', h: 5, note: 'Architecture review', nextH: 5 }, { p: 'DigiQ tech infrastructure', h: 3, note: '', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Casper Thylkjær', ini: 'CT', role: 'pm', avail: 'amber', availTxt: 'Open — small tasks (4h)', totalH: 15, availH: 4, submitted: true, inactive: false, emoji: '😐', schedule: { Mon: [false, false, false], Tue: [true, true, false], Wed: [true, false, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [{ p: 'CHI In-house RAG', h: 6, note: 'New system prompt for RAG MVP, finished eval sheet', nextH: 4 }, { p: 'DS Stål deployment', h: 3, note: 'Live environment progress', nextH: 3 }], poNote: '', pmNote: 'Good momentum on the RAG this week.', leadership: 'Inbound request from Aarsleff about a potential collaboration. Not sure if this is a project or just a meeting.' },
+      { name: 'Abel Nagy', ini: 'AN', role: 'c', avail: 'green', availTxt: 'Open (3h)', totalH: 15, availH: 3, submitted: true, inactive: false, emoji: '😊', schedule: { Mon: [true, true, false], Tue: [true, false, false], Wed: [false, false, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [{ p: 'KogniKit KU', h: 4, note: 'Data analysis tasks', nextH: 4 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Alexander Velev', ini: 'AV', role: 'c', avail: 'amber', availTxt: 'Open (0h)', totalH: 15, availH: 0, submitted: true, inactive: false, emoji: '😊', schedule: { Mon: [true, true, false], Tue: [false, false, false], Wed: [true, true, false], Thu: [true, false, false], Fri: [false, false, false] }, projs: [{ p: 'CHI Chatbot Standardization', h: 4, note: 'Met Jacob, aligned next steps', nextH: 3 }, { p: 'Quantum readiness chatbot', h: 3, note: 'Dev work', nextH: 4 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Alexis Vrielynck', ini: 'AV', role: 'c', avail: 'amber', availTxt: 'Open (0h)', totalH: 37, availH: 0, submitted: true, inactive: false, emoji: '⚡', schedule: { Mon: [true, true, false], Tue: [true, true, true], Wed: [true, false, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [{ p: 'Quantum Jobs', h: 5, note: 'Quantum Jobs content, AI box work', nextH: 6 }, { p: 'GenAI Box w. Bagger Sørensen', h: 3, note: 'Langfuse integration', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Antoine Poirier', ini: 'AP', role: 'c', avail: 'green', availTxt: 'Open (5h)', totalH: 37, availH: 5, submitted: false, inactive: false, emoji: '', schedule: { Mon: [true, true, false], Tue: [true, true, false], Wed: [true, true, false], Thu: [true, false, false], Fri: [false, false, false] }, projs: [], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Carina Gibat', ini: 'CG', role: 'c', avail: 'amber', availTxt: 'Open (2h)', totalH: 15, availH: 2, submitted: true, inactive: false, emoji: '😊', schedule: { Mon: [false, false, false], Tue: [true, true, false], Wed: [true, false, false], Thu: [false, false, false], Fri: [false, false, false] }, projs: [{ p: 'CrowdThinking Festivals', h: 3, note: 'Event planning', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Chloe Lucas', ini: 'CL', role: 'c', avail: 'amber', availTxt: 'Not open', totalH: 37, availH: 0, submitted: true, inactive: false, emoji: '😐', schedule: { Mon: [true, true, false], Tue: [true, true, true], Wed: [true, true, false], Thu: [true, false, false], Fri: [false, false, false] }, projs: [{ p: 'Quantum readiness chatbot', h: 5, note: 'Chatbot dev', nextH: 5 }, { p: 'Quantum Strategies Chatbot', h: 3, note: 'Content integration', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Daniel Le', ini: 'DL', role: 'c', avail: 'green', availTxt: 'Open (4h)', totalH: 15, availH: 4, submitted: true, inactive: false, emoji: '😊', schedule: { Mon: [true, false, false], Tue: [true, true, false], Wed: [false, false, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [{ p: 'HI Manifesto', h: 3, note: 'Content writing', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Lærke Thansen', ini: 'LT', role: 'c', avail: 'amber', availTxt: 'Open (2h)', totalH: 15, availH: 2, submitted: false, inactive: false, emoji: '', schedule: { Mon: [true, false, false], Tue: [false, false, false], Wed: [true, true, false], Thu: [true, false, false], Fri: [false, false, false] }, projs: [{ p: 'KogniKit AU', h: 4, note: '', nextH: 4 }, { p: 'CrowdThinking Festivals', h: 3, note: '', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Mille Berg', ini: 'MB', role: 'c', avail: 'green', availTxt: 'Open (3h)', totalH: 15, availH: 3, submitted: false, inactive: false, emoji: '', schedule: { Mon: [false, false, false], Tue: [true, true, false], Wed: [false, false, false], Thu: [true, false, false], Fri: [true, true, false] }, projs: [{ p: 'FERC bot', h: 4, note: '', nextH: 4 }, { p: 'Operations Task Force', h: 2, note: '', nextH: 2 }], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Rigmor Lyck Hansen', ini: 'RL', role: 'c', avail: 'green', availTxt: 'Open (4h)', totalH: 15, availH: 4, submitted: false, inactive: false, emoji: '', schedule: { Mon: [true, true, false], Tue: [false, false, false], Wed: [true, false, false], Thu: [true, true, false], Fri: [false, false, false] }, projs: [], poNote: '', pmNote: '', leadership: '' },
+      { name: 'Sára Szabó', ini: 'SS', role: 'c', avail: 'amber', availTxt: 'Open (0h)', totalH: 15, availH: 0, submitted: true, inactive: false, emoji: '😊', schedule: { Mon: [false, false, false], Tue: [true, true, false], Wed: [true, true, false], Thu: [false, false, false], Fri: [true, false, false] }, projs: [{ p: 'KogniKit KU', h: 5, note: 'Onboarded Lærke, vibe-coding new games', nextH: 6 }, { p: 'KogniKit AU', h: 3, note: 'Meeting coordination', nextH: 3 }], poNote: '', pmNote: '', leadership: '' },
+    ];
+
+    function ini(n) { return n.split(/[\s.]+/).filter(Boolean).map(w => w[0].toUpperCase()).join('').slice(0, 2); }
+
+    // TABLE
+    function buildTable() {
+      const tb = document.getElementById('ptbody'); tb.innerHTML = '';
+      PROJECTS.forEach((p, i) => {
+        const all = [...p.po, ...p.pm, ...p.contrib];
+        const avH = all.slice(0, 4).map((x, pi) => { const c = AVC[(i + pi) % AVC.length]; return `<span class="av" style="background:${c.bg};color:${c.fg};" title="${x.n} — ${RLBL[x.r] || x.r}">${ini(x.n)}</span>`; }).join('');
+        const ex = all.length - 4;
+        const exH = ex > 0 ? `<span class="av" style="background:var(--bg);color:var(--mu);font-size:9px;">+${ex}</span>` : '';
+        const bw = Math.round(Math.min((p.weekH / Math.max(p.moH / 4.3, 1)) * 100, 100));
+        const bds = [];
+        if (p.dormant) bds.push(`<span class="bdg bdg-d">dormant</span>`);
+        if (p.proposed) bds.push(`<span class="bdg bdg-p">proposed</span>`);
+        if (!p.dormant && !p.proposed && p.weekH === 0) bds.push(`<span class="bdg bdg-n">no activity</span>`);
+        const gs = p.goal ? `<div class="ps">${p.goal}${!p.goalApproved && !p.dormant ? ` <span class="bdg bdg-pnd">goal pending</span>` : ''}</div>` : (!p.goalApproved && !p.dormant ? `<div style="margin-top:2px;"><span class="bdg bdg-pnd">no goal set</span></div>` : '');
+        const st = p.weekStatus ? `<div class="stxt">${p.weekStatus}</div>` : `<div style="font-size:11px;color:var(--fa);">—</div>`;
+        const tr = document.createElement('tr');
+        if (p.dormant) tr.classList.add('dorm');
+        tr.setAttribute('data-id', p.id);
+        tr.onclick = () => toggleDet(p.id, tr);
+        tr.innerHTML = `<td style="padding-left:12px;width:30px;"><span class="sdlg" style="background:${SC[p.status]};display:block;margin-top:2px;"></span></td><td><div class="pn">${p.name} ${bds.join(' ')}</div>${gs}</td><td><span style="font-size:12px;color:var(--mu);">${p.phase || '—'}</span></td><td>${st}</td><td><div style="display:flex;flex-wrap:wrap;gap:3px;">${avH}${exH}</div></td><td><div class="hb"><div class="hf" style="width:${bw}%;background:${SC[p.status]};opacity:.5;"></div></div><div class="hnum">${p.weekH}h <span style="color:var(--fa);">${p.moH}h/mo</span></div></td>`;
+        tb.appendChild(tr);
+      });
+    }
+
+    let openId = null;
+    const teamEdits = {};
+
+    // STATUS HISTORY — populated from API on init
+    let STATUS_HISTORY = {
+      1: [{ wk: 'Wk 17', s: 'green', note: 'Kick-off done. VM setup in progress with Maceo.' }, { wk: 'Wk 16', s: 'green', note: 'Planning complete. Awaiting VM credentials.' }, { wk: 'Wk 15', s: 'green', note: 'Project kicked off. Team aligned on scope.' }, { wk: 'Wk 14', s: 'green', note: '' }],
+      2: [{ wk: 'Wk 17', s: 'green', note: 'Frederik meeting contact persons. Two reports reviewed.' }, { wk: 'Wk 16', s: 'amber', note: 'Waiting on two partners to respond to outreach.' }, { wk: 'Wk 15', s: 'green', note: 'Partner list finalised. Outreach sent.' }, { wk: 'Wk 14', s: 'green', note: '' }],
+      3: [{ wk: 'Wk 17', s: 'green', note: 'Sára vibe-coding new games. Decoupling in progress.' }, { wk: 'Wk 16', s: 'green', note: 'CFA pipeline submitted for review.' }, { wk: 'Wk 15', s: 'amber', note: 'Pipeline delayed — dependency on game instance config.' }, { wk: 'Wk 14', s: 'green', note: '' }],
+      4: [{ wk: 'Wk 17', s: 'green', note: 'Alexander and Chloe aligning on architecture.' }, { wk: 'Wk 16', s: 'green', note: 'Dev build scope agreed. Work underway.' }, { wk: 'Wk 15', s: 'green', note: 'Chatbot structure defined.' }, { wk: 'Wk 14', s: 'amber', note: 'Scope unclear — needed Jacob input before starting.' }],
+      7: [{ wk: 'Wk 17', s: 'green', note: 'Janet presenting at HHAI. TechCircle interview this week.' }, { wk: 'Wk 16', s: 'green', note: 'Interview guide finalised. First interview scheduled.' }, { wk: 'Wk 15', s: 'green', note: 'Stakeholder list agreed.' }, { wk: 'Wk 14', s: 'green', note: '' }],
+      8: [{ wk: 'Wk 17', s: 'green', note: 'Handbook structure drafted. SOPs in progress.' }, { wk: 'Wk 16', s: 'green', note: 'First draft of structure complete.' }, { wk: 'Wk 15', s: 'green', note: 'Scope agreed with team.' }, { wk: 'Wk 14', s: 'green', note: '' }],
+      9: [{ wk: 'Wk 17', s: 'amber', note: 'Dev roadmap being drafted.' }, { wk: 'Wk 16', s: 'amber', note: 'Roadmap stalled — waiting on architecture decision.' }, { wk: 'Wk 15', s: 'amber', note: 'Scoping ongoing. More time needed.' }, { wk: 'Wk 14', s: 'green', note: 'Scoping started.' }],
+      10: [{ wk: 'Wk 17', s: 'amber', note: '20 queries to evaluate by CHI staff.' }, { wk: 'Wk 16', s: 'amber', note: 'Evaluation sheet ready. Need CHI staff time.' }, { wk: 'Wk 15', s: 'red', note: 'Blocked — no one available to evaluate.' }, { wk: 'Wk 14', s: 'amber', note: 'RAG deployed. Eval not started.' }],
+      13: [{ wk: 'Wk 17', s: 'amber', note: '3 page abstract submitted.' }, { wk: 'Wk 16', s: 'amber', note: 'Abstract draft in review.' }, { wk: 'Wk 15', s: 'amber', note: 'Writing underway. Tight deadline.' }, { wk: 'Wk 14', s: 'green', note: 'Abstract scoped.' }],
+      14: [{ wk: 'Wk 17', s: 'amber', note: 'Abstract mid April. Conference in May.' }, { wk: 'Wk 16', s: 'amber', note: 'Abstract being written.' }, { wk: 'Wk 15', s: 'amber', note: 'Abstract not started yet — capacity issues.' }, { wk: 'Wk 14', s: 'amber', note: 'Bot development ongoing.' }],
+    };
+
+    function getHistory(projId, currentStatus, currentNote) {
+      const hist = STATUS_HISTORY[projId];
+      if (hist) return hist;
+      return [
+        { wk: 'Wk 17', s: currentStatus, note: currentNote || '' },
+        { wk: 'Wk 16', s: 'green', note: '' },
+        { wk: 'Wk 15', s: 'green', note: '' },
+        { wk: 'Wk 14', s: 'green', note: '' },
+      ];
+    }
+
+    function getStreak(hist) {
+      if (!hist || !hist.length) return null;
+      const top = hist[0].s;
+      if (top === 'green') return null;
+      let count = 0;
+      for (let i = 0; i < hist.length; i++) { if (hist[i].s === top) count++; else break; }
+      if (count < 2) return null;
+      return { count, status: top };
+    }
+
+    function renderStatusHistory(projId, currentStatus, currentNote) {
+      const hist = getHistory(projId, currentStatus, currentNote);
+      const streak = getStreak(hist);
+      const sl = { green: 'On track', amber: 'Needs discussion', red: 'Urgent', gray: 'No update' };
+      const streakHTML = streak ? `<span style="font-size:10px;padding:1px 7px;border-radius:20px;margin-left:6px;background:${streak.status === 'red' ? 'var(--rb)' : 'var(--ab)'};color:${streak.status === 'red' ? 'var(--rd)' : 'var(--am)'};">${streak.count} wks ${streak.status}</span>` : '';
+      const rows = hist.map((h, i) => `
+    <div style="margin-bottom:4px;">
+      <div style="display:flex;align-items:center;gap:7px;padding:3px 0;cursor:${h.note ? 'pointer' : 'default'};" onclick="${h.note ? `toggleHistNote('hn-${projId}-${i}')` : ''}" >
+        <span style="color:var(--fa);font-family:'DM Mono',monospace;font-size:10px;width:40px;flex-shrink:0;">${h.wk}</span>
+        <span class="sdlg" style="background:${SC[h.s] || 'var(--b)'};width:8px;height:8px;flex-shrink:0;margin-top:0;"></span>
+        <span style="font-size:12px;color:var(--mu);flex:1;">${sl[h.s] || '—'}</span>
+        ${h.note ? `<span style="font-size:10px;color:var(--bl);">▾ note</span>` : ''}
+      </div>
+      ${h.note ? `<div id="hn-${projId}-${i}" style="display:none;font-size:11px;color:var(--mu);line-height:1.5;padding:5px 8px 6px 47px;border-left:2px solid var(--b);margin-left:0;">${h.note}</div>` : ''}
+    </div>`).join('');
+      return `<div style="display:flex;align-items:center;margin-bottom:8px;"><div class="dlbl" style="margin-bottom:0;">Status history</div>${streakHTML}</div>${rows}`;
+    }
+
+    function toggleHistNote(id) {
+      const el = document.getElementById(id); if (!el) return;
+      el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function renderStatusEditor(projId, panelId) {
+      if (!currentEditor) { alert('Please select who you are editing as (top right).'); return; }
+      const p = PROJECTS.find(x => x.id === projId);
+      const panel = document.getElementById(panelId);
+      const opts = [
+        { s: 'green', label: 'On track', bg: 'var(--gb)', fg: 'var(--gn)' },
+        { s: 'amber', label: 'Needs discussion', bg: 'var(--ab)', fg: 'var(--am)' },
+        { s: 'red', label: 'Urgent', bg: 'var(--rb)', fg: 'var(--rd)' },
+        { s: 'gray', label: 'Dormant', bg: 'var(--db)', fg: 'var(--dm)' },
+      ];
+      panel.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="dlbl" style="margin-bottom:0;">Change status</div>
+      <span style="font-size:11px;color:var(--am);">Editing as ${currentEditor}</span>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+      ${opts.map(o => `<button onclick="applyStatus(${projId},'${o.s}','${panelId}',this)" style="flex:1;padding:7px 10px;font-size:12px;font-family:'DM Sans',sans-serif;border-radius:var(--r);border:${p.status === o.s ? '2px solid var(--tx)' : '0.5px solid var(--bm)'};background:${o.bg};color:${o.fg};cursor:pointer;font-weight:${p.status === o.s ? '500' : '400'};">${o.label}</button>`).join('')}
+    </div>
+    <button onclick="renderProjectPanel(${projId},document.getElementById('proj-panel-${projId}'))" style="font-size:12px;padding:5px 12px;border:0.5px solid var(--bm);border-radius:var(--r);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>`;
+    }
+
+    function applyStatus(projId, newStatus, panelId, btn) {
+      const p = PROJECTS.find(x => x.id === projId);
+      const oldStatus = p.status;
+      p.status = newStatus;
+      fetch('/api/projects/' + projId, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: newStatus, editor: currentEditor }) });
+      const now = new Date();
+      const ts = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      teamEdits[projId] = { by: currentEditor, time: ts + ' today' };
+      buildTable();
+      buildAllocGrid();
+      const panel = document.getElementById(panelId);
+      renderProjectPanel(projId, panel);
+      const sl = { green: 'On track', amber: 'Needs discussion', red: 'Urgent', gray: 'Dormant' };
+      const flash = document.createElement('div');
+      flash.style.cssText = `position:fixed;bottom:24px;right:24px;background:var(--tx);color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;padding:10px 18px;border-radius:var(--rl);z-index:999;transition:opacity .4s;`;
+      flash.textContent = `${p.name} → ${sl[newStatus]} · ${currentEditor}`;
+      document.body.appendChild(flash);
+      setTimeout(() => { flash.style.opacity = '0'; setTimeout(() => flash.remove(), 400); }, 2000);
+    }
+
+    function renderProjectPanel(projId, panel) {
+      const p = PROJECTS.find(x => x.id === projId);
+      const editNote = teamEdits[projId] ? `<div style="font-size:10px;color:var(--bl);margin-top:8px;">Edited by ${teamEdits[projId].by} · ${teamEdits[projId].time}</div>` : '';
+      const statusC = { green: 'var(--gn)', amber: 'var(--am)', red: 'var(--rd)', gray: 'var(--dm)' };
+      const statusLbl = { green: 'On track', amber: 'Needs discussion', red: 'Urgent', gray: 'No update' };
+      panel.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <span class="sdlg" style="background:${statusC[p.status]};width:10px;height:10px;"></span>
+        <div class="dlbl" style="margin-bottom:0;">${statusLbl[p.status]}</div>
+      </div>
+      <button onclick="renderStatusEditor(${projId},'proj-panel-${projId}')" style="font-size:11px;color:var(--bl);background:transparent;border:0.5px solid rgba(26,95,168,.3);border-radius:var(--r);padding:2px 8px;cursor:pointer;">Change status</button>
+    </div>
+    ${editNote}`;
+    }
+
+    function renderTeamReadOnly(p, container) {
+      const at = [...p.po.map(x => ({ ...x, rk: 'PO' })), ...p.pm.map(x => ({ ...x, rk: 'PM' })), ...p.contrib.map(x => ({ ...x, rk: x.r }))];
+      const tH = at.length ? at.map((x, pi) => { const c = AVC[pi % AVC.length]; return `<div class="dtr"><span class="av" style="background:${c.bg};color:${c.fg};width:24px;height:24px;font-size:9px;">${ini(x.n)}</span><span style="flex:1;">${x.n}</span><span class="drl">${RLBL[x.rk] || x.rk}</span></div>`; }).join('') : '<div style="font-size:12px;color:var(--fa);">Not assigned</div>';
+      const editNote = teamEdits[p.id] ? `<div style="font-size:10px;color:var(--bl);margin-top:8px;">Edited by ${teamEdits[p.id].by} · ${teamEdits[p.id].time}</div>` : '';
+      container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;">
+      <div class="dlbl" style="margin-bottom:0;">Team</div>
+      <button onclick="renderTeamEditMode(${p.id},this.closest('.team-panel'))" style="font-size:11px;color:var(--bl);background:transparent;border:0.5px solid rgba(26,95,168,.3);border-radius:var(--r);padding:2px 8px;cursor:pointer;">Edit team</button>
+    </div>
+    ${tH}${editNote}`;
+    }
+
+    function toggleDet(id, tr, editTeam = false) {
+      const prev = document.getElementById('det-' + openId); if (prev) prev.remove();
+      document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('exp'));
+      if (openId === id && !editTeam) { openId = null; return; }
+      openId = id; tr.classList.add('exp');
+      const p = PROJECTS.find(x => x.id === id);
+      const gH = p.goal ? `<div style="font-size:13px;color:var(--mu);line-height:1.5;margin-bottom:4px;">${p.goal}</div><div style="font-size:11px;color:${p.goalApproved ? 'var(--gn)' : 'var(--am)'};">${p.goalApproved ? '✓ Approved' : 'Pending PO approval'}</div>` : '<div style="font-size:12px;color:var(--fa);">No goal set</div>';
+      const msH = p.marks.length ? p.marks.map(m => `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:12px;"><span style="font-size:10px;padding:1px 5px;border-radius:3px;${m.t === 'd' ? 'background:var(--rb);color:var(--rd);' : 'background:var(--ab);color:var(--am);'}">${m.t === 'd' ? 'Deadline' : 'Milestone'}</span><span style="color:var(--mu);">${m.l}</span><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--fa);margin-left:auto;">${m.d}</span></div>`).join('') : '<div style="font-size:12px;color:var(--fa);">None set</div>';
+      const histHTML = renderStatusHistory(id, p.status, p.weekStatus);
+      const detTr = document.createElement('tr');
+      detTr.className = 'detr'; detTr.id = 'det-' + id;
+      detTr.innerHTML = `<td colspan="6"><div class="deti">
+    <div>
+      <div id="proj-panel-${id}" style="margin-bottom:12px;"></div>
+      <div class="team-panel" id="team-panel-${id}"></div>
+      <div class="dlbl" style="margin-top:12px;">Monthly goal</div>${gH}
+    </div>
+    <div>
+      <div class="dlbl">This week</div>
+      <div style="font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:12px;">${p.weekStatus || '—'}</div>
+      ${p.celebrate ? `<div style="font-size:12px;background:var(--gb);color:var(--gn);padding:5px 8px;border-radius:var(--r);margin-bottom:10px;">🎉 ${p.celebrate}</div>` : ''}
+      ${p.decision ? `<div style="font-size:12px;background:var(--rb);color:var(--rd);padding:5px 8px;border-radius:var(--r);margin-bottom:10px;">🚩 ${p.decision}</div>` : ''}
+      ${histHTML}
+    </div>
+    <div>
+      <div class="dlbl">Hours</div>
+      <div style="font-size:13px;margin-bottom:4px;">${p.weekH}h <span style="font-size:11px;color:var(--fa);">this week</span></div>
+      <div style="font-size:13px;margin-bottom:12px;">${p.moH}h <span style="font-size:11px;color:var(--fa);">this month</span></div>
+      <div class="dlbl">Milestones & deadlines</div>${msH}
+    </div>
+  </div></td>`;
+      tr.insertAdjacentElement('afterend', detTr);
+      const projPanel = document.getElementById('proj-panel-' + id);
+      renderProjectPanel(id, projPanel);
+      const teamPanel = document.getElementById('team-panel-' + id);
+      if (editTeam) {
+        renderTeamEditMode(id, teamPanel);
+        detTr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        setTimeout(() => { teamPanel.style.outline = '2px solid var(--am)'; teamPanel.style.borderRadius = 'var(--r)'; setTimeout(() => { teamPanel.style.outline = 'none'; }, 1200); }, 100);
+      } else {
+        renderTeamReadOnly(p, teamPanel);
+        detTr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function renderTeamEditMode(projId, container) {
+      if (!currentEditor) { alert('Please select who you are editing as (top right).'); return; }
+      const p = PROJECTS.find(x => x.id === projId);
+      const at = [...p.po.map(x => ({ ...x, rk: 'PO' })), ...p.pm.map(x => ({ ...x, rk: 'PM' })), ...p.contrib.map(x => ({ ...x, rk: x.r }))];
+      const roleOpts = Object.entries(RLBL).map(([k, v]) => `<option value="${k}">${v}</option>`).join('');
+      const personOpts = '<option value="">Select person...</option>' + PEOPLE.map(pe => `<option value="${pe.name}">${pe.name}</option>`).join('');
+      let rowsHTML = at.map((x, pi) => {
+        const c = AVC[pi % AVC.length];
+        const rOpts = Object.entries(RLBL).map(([k, v]) => `<option value="${k}"${k === x.rk ? 'selected' : ''}>${v}</option>`).join('');
+        return `<div class="team-edit-row" style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+      <span class="av" style="background:${c.bg};color:${c.fg};width:24px;height:24px;font-size:9px;flex-shrink:0;">${ini(x.n)}</span>
+      <span style="flex:1;font-size:12px;">${x.n}</span>
+      <select style="font-size:12px;padding:3px 6px;width:140px;">${rOpts}</select>
+      <button onclick="this.closest('.team-edit-row').remove()" style="font-size:14px;color:var(--fa);background:transparent;border:none;cursor:pointer;padding:0 4px;flex-shrink:0;">×</button>
+    </div>`;
+      }).join('');
+      container.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="dlbl" style="margin-bottom:0;">Edit team</div>
+      <div style="font-size:11px;color:var(--am);">Editing as ${currentEditor}</div>
+    </div>
+    <div id="team-rows-${projId}">${rowsHTML}</div>
+    <div style="display:flex;gap:6px;margin-bottom:6px;">
+      <select id="new-person-${projId}" style="flex:1;font-size:12px;padding:4px 7px;">${personOpts}</select>
+      <select id="new-role-${projId}" style="width:140px;font-size:12px;padding:4px 7px;">${roleOpts}</select>
+      <button onclick="addTeamRow(${projId})" style="font-size:12px;padding:4px 10px;border:0.5px solid var(--bm);border-radius:var(--r);background:transparent;cursor:pointer;white-space:nowrap;">+ Add</button>
+    </div>
+    <div style="font-size:11px;color:var(--fa);margin-bottom:10px;">Removing someone here does not remove their hours from this week's allocation grid.</div>
+    <div style="display:flex;gap:6px;">
+      <button onclick="saveTeam(${projId},this.closest('.team-panel'))" style="flex:1;padding:7px;font-size:12px;background:var(--tx);color:#fff;border:none;border-radius:var(--r);cursor:pointer;">Save changes</button>
+      <button onclick="renderTeamReadOnly(PROJECTS.find(x=>x.id===${projId}),this.closest('.team-panel'))" style="padding:7px 14px;font-size:12px;border:0.5px solid var(--bm);border-radius:var(--r);background:transparent;cursor:pointer;">Cancel</button>
+    </div>`;
+    }
+
+    function addTeamRow(projId) {
+      const personSel = document.getElementById('new-person-' + projId);
+      const roleSel = document.getElementById('new-role-' + projId);
+      const name = personSel.value; const role = roleSel.value;
+      if (!name) return;
+      const pi = PEOPLE.findIndex(p => p.name === name);
+      const c = AVC[Math.max(0, pi) % AVC.length];
+      const rOpts = Object.entries(RLBL).map(([k, v]) => `<option value="${k}"${k === role ? 'selected' : ''}>${v}</option>`).join('');
+      const container = document.getElementById('team-rows-' + projId);
+      const row = document.createElement('div'); row.className = 'team-edit-row';
+      row.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:6px;';
+      row.innerHTML = `<span class="av" style="background:${c.bg};color:${c.fg};width:24px;height:24px;font-size:9px;flex-shrink:0;">${ini(name)}</span><span style="flex:1;font-size:12px;">${name}</span><select style="font-size:12px;padding:3px 6px;width:140px;">${rOpts}</select><button onclick="this.closest('.team-edit-row').remove()" style="font-size:14px;color:var(--fa);background:transparent;border:none;cursor:pointer;padding:0 4px;flex-shrink:0;">×</button>`;
+      container.appendChild(row);
+      personSel.value = '';
+    }
+
+    function saveTeam(projId, container) {
+      const p = PROJECTS.find(x => x.id === projId);
+      const rows = container.querySelectorAll('.team-edit-row');
+      const newPO = []; const newPM = []; const newContrib = [];
+      rows.forEach(row => {
+        const name = row.querySelector('span:nth-child(2)').textContent.trim();
+        const role = row.querySelector('select').value;
+        if (role === 'PO') newPO.push({ n: name, r: 'PO' });
+        else if (role === 'PM') newPM.push({ n: name, r: 'PM' });
+        else newContrib.push({ n: name, r: role });
+      });
+      p.po = newPO; p.pm = newPM; p.contrib = newContrib;
+      const team = [...newPO.map(x => ({ n: x.n, r: 'PO' })), ...newPM.map(x => ({ n: x.n, r: 'PM' })), ...newContrib.map(x => ({ n: x.n, r: x.r }))];
+      fetch('/api/projects/' + projId + '/team', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team, editor: currentEditor }) });
+      const now = new Date();
+      const ts = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      teamEdits[projId] = { by: currentEditor, time: ts + ' today' };
+      renderTeamReadOnly(p, container);
+      buildTable();
+    }
+
+    let manageMode = false;
+    function toggleManageMode() {
+      manageMode = !manageMode;
+      document.getElementById('manage-btn').style.background = manageMode ? 'rgba(26,95,168,.1)' : 'transparent';
+      document.getElementById('manage-notice').style.display = manageMode ? 'block' : 'none';
+      buildSidebar();
+    }
+
+    function buildSidebar() {
+      const active = PEOPLE.filter(p => !p.inactive);
+      const sl = document.getElementById('sublist'); sl.innerHTML = '';
+      active.forEach(p => {
+        const r = document.createElement('div'); r.className = 'subrow';
+        r.innerHTML = `<span class="subname">${p.name}</span><span class="tick ${p.submitted ? 'td' : 'tm'}">${p.submitted ? '✓' : '!'}</span>`;
+        sl.appendChild(r);
+      });
+      const cl = document.getElementById('caplist'); cl.innerHTML = '';
+      active.forEach(p => {
+        const alloc = p.projs.reduce((s, x) => s + x.nextH, 0);
+        const pct = Math.round(Math.min((alloc / p.totalH) * 100, 100));
+        const dotC = AVDOTC[p.avail] || 'var(--mu)';
+        const shortName = p.name.split(' ').slice(0, 2).join(' ');
+        const row = document.createElement('div'); row.className = 'caprow';
+        if (manageMode) {
+          row.style.cursor = 'pointer';
+          row.title = 'Click to mark inactive';
+          row.onclick = () => { p.inactive = true; fetch('/api/people/' + p.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ inactive: 1 }) }); buildSidebar(); };
+          row.innerHTML = `<span class="capdot" style="background:${dotC};"></span><span class="capname" style="text-decoration:underline;text-decoration-style:dotted;">${shortName}</span><div class="capbar"><div class="capfill" style="width:${pct}%;"></div></div><span class="caph">${p.totalH}h / ${p.availH}h</span>`;
+        } else {
+          row.innerHTML = `<span class="capdot" style="background:${dotC};"></span><span class="capname">${shortName}</span><div class="capbar"><div class="capfill" style="width:${pct}%;"></div></div><span class="caph">${p.totalH}h / ${p.availH}h</span>`;
+        }
+        cl.appendChild(row);
+      });
+      if (manageMode) {
+        const inactive = PEOPLE.filter(p => p.inactive);
+        if (inactive.length) {
+          const divEl = document.createElement('div');
+          divEl.style.cssText = 'padding:6px 12px;border-top:0.5px solid var(--b);margin-top:4px;';
+          divEl.innerHTML = `<div style="font-size:10px;color:var(--fa);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px;">Inactive</div>`;
+          inactive.forEach(p => {
+            const r = document.createElement('div');
+            r.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;';
+            r.title = 'Click to reactivate';
+            r.onclick = () => { p.inactive = false; fetch('/api/people/' + p.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ inactive: 0 }) }); buildSidebar(); };
+            r.innerHTML = `<span style="font-size:11px;color:var(--fa);flex:1;">${p.name.split(' ').slice(0, 2).join(' ')}</span><span style="font-size:10px;color:var(--bl);">Reactivate</span>`;
+            divEl.appendChild(r);
+          });
+          cl.appendChild(divEl);
+        }
+      }
+    }
+
+    // TIMELINE
+    let tlWeeks = 10;
+    const TLNW = 190;
+    function buildTimeline() {
+      const nc = document.getElementById('tlnc');
+      const mg = document.getElementById('tlmg');
+      const rows = document.getElementById('tlrows');
+      document.getElementById('tlinner').style.minWidth = (TLNW + tlWeeks * 60) + 'px';
+      document.getElementById('tlzlbl').textContent = tlWeeks + 'wk';
+      nc.style.width = TLNW + 'px'; nc.style.flexShrink = '0';
+      mg.innerHTML = '';
+      const today = new Date(2026, 3, 23);
+      for (let w = 0; w < tlWeeks; w++) {
+        const d = new Date(today); d.setDate(d.getDate() + w * 7);
+        const lbl = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        const cell = document.createElement('div');
+        cell.className = 'tlmcell';
+        cell.style.flex = '0 0 60px';
+        cell.textContent = lbl;
+        mg.appendChild(cell);
+      }
+      rows.innerHTML = '';
+      const totalMs = tlWeeks * 7 * 24 * 60 * 60 * 1000;
+      const todayMs = today.getTime();
+      PROJECTS.filter(p => !p.dormant).forEach(p => {
+        const row = document.createElement('div'); row.className = 'tlrow';
+        const stub = document.createElement('div'); stub.className = 'tlns';
+        stub.style.width = TLNW + 'px'; stub.style.flexShrink = '0';
+        stub.innerHTML = `<span class="sdlg" style="background:${SC[p.status]};width:7px;height:7px;flex-shrink:0;"></span>${p.name}`;
+        const track = document.createElement('div'); track.className = 'tltrack'; track.style.width = (tlWeeks * 60) + 'px';
+        const todayLn = document.createElement('div'); todayLn.className = 'todayln'; todayLn.style.left = '0'; track.appendChild(todayLn);
+        const s = Math.max(0, (todayMs + p.tl[0] * 180 * 24 * 60 * 60 * 1000 - todayMs) / totalMs * 100);
+        const e = Math.min(100, (todayMs + p.tl[1] * 180 * 24 * 60 * 60 * 1000 - todayMs) / totalMs * 100);
+        if (e > 0 && s < 100) {
+          const bar = document.createElement('div'); bar.className = 'tlbar';
+          bar.style.left = Math.max(0, s) + '%'; bar.style.width = (e - Math.max(0, s)) + '%'; bar.style.background = p.color;
+          track.appendChild(bar);
+        }
+        p.marks.forEach(m => {
+          if (!m.d) return;
+          const md = new Date(m.d);
+          const pct = (md.getTime() - todayMs) / totalMs * 100;
+          if (pct < 0 || pct > 100) return;
+          const mk = document.createElement('div'); mk.className = 'tlmk'; mk.style.left = pct + '%'; mk.style.background = m.t === 'd' ? 'var(--rd)' : 'var(--am)'; track.appendChild(mk);
+          const lbl = document.createElement('div'); lbl.className = 'tllbl'; lbl.style.left = pct + '%'; lbl.style.color = m.t === 'd' ? 'var(--rd)' : 'var(--am)'; lbl.textContent = m.l; track.appendChild(lbl);
+        });
+        row.appendChild(stub); row.appendChild(track); rows.appendChild(row);
+      });
+    }
+    function zoomTl(dir) { tlWeeks = Math.max(4, Math.min(26, tlWeeks - dir * 2)); buildTimeline(); }
+
+    // AGENDA — built from PEOPLE.leadership field
+    function buildAgenda() {
+      const body = document.getElementById('agenda-body'); body.innerHTML = '';
+      const items = PEOPLE.filter(p => p.leadership && p.leadership.trim()).map(p => ({ who: p.name, role: p.role === 'po' ? 'PO' : 'PM', txt: p.leadership }));
+      document.getElementById('agenda-count').textContent = items.length + ' items';
+      items.forEach(item => {
+        const div = document.createElement('div'); div.className = 'agenda-item';
+        div.innerHTML = `<div class="agenda-who">${item.who} <span class="agenda-role">${item.role}</span></div><div class="agenda-txt">${item.txt}</div>`;
+        body.appendChild(div);
+      });
+    }
+    function toggleAgenda() {
+      const b = document.getElementById('agenda-body');
+      b.classList.toggle('open');
+      document.getElementById('agenda-chev').textContent = b.classList.contains('open') ? '▴' : '▾';
+    }
+
+    // PEOPLE LAYER
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const BLOCKS = ['Morning', 'Early aft.', 'Late aft.'];
+    function buildPeopleLayer() {
+      const grid = document.getElementById('pgrid'); grid.innerHTML = '';
+      const _now = new Date(); const _j1 = new Date(_now.getFullYear(), 0, 1);
+      const _curWk = 'Wk ' + Math.ceil(((_now - _j1) / 864e5 + _j1.getDay() + 1) / 7);
+      PEOPLE.forEach((p, i) => {
+        const c = AVC[i % AVC.length];
+        const card = document.createElement('div'); card.className = 'pcard';
+        const isStale = !p.lastCheckinWeek || p.lastCheckinWeek !== _curWk;
+        if (isStale) { card.style.background = 'var(--bg)'; card.style.borderColor = 'var(--b)'; card.style.opacity = '0.55'; }
+        const emojiHTML = p.emoji ? `<span class="pemoji">${p.emoji}</span>` : '';
+        const avTagHTML = `<span class="avtag" style="background:${AVTAGBG[p.avail] || 'var(--ab)'};color:${AVTAGFG[p.avail] || 'var(--am)'};">
+      <span style="width:6px;height:6px;border-radius:50%;background:${AVDOTC[p.avail] || 'var(--am)'};display:inline-block;"></span>${p.availTxt}</span>`;
+        const isPO = p.role === 'po';
+        let schedHTML = '';
+        if (!isPO) {
+          const dayHeads = DAYS.map(d => `<div class="sgday">${d[0]}</div>`).join('');
+          const cols = DAYS.map(d => {
+            const bs = p.schedule[d] || [false, false, false];
+            return `<div class="sgcol">${bs.map(on => `<div class="sgcell ${on ? 'on' : ''}"></div>`).join('')}</div>`;
+          }).join('');
+          schedHTML = `<div class="sgrid"><div class="sghead">${dayHeads}</div><div class="sgbody">${cols}</div></div>`;
+        }
+        let contentHTML = '';
+        if (isPO) {
+          contentHTML = p.poNote ? `<div class="plbl">This week</div><div class="pofree">${p.poNote}</div>` : `<div style="font-size:12px;color:var(--fa);">No presence note this week.</div>`;
+        } else if (p.role === 'pm') {
+          contentHTML = p.pmNote ? `<div class="plbl">This week</div><div class="pofree">${p.pmNote}</div>` : `<div style="font-size:12px;color:var(--fa);">No note this week.</div>`;
+        } else {
+          const ph = p.projs.map(x => `<div class="pprow"><span>${x.p}</span><span class="pph">${x.h}h · ${x.nextH}h nxt</span></div>${x.note ? `<div class="pnote">${x.note}</div>` : ''}`).join('');
+          contentHTML = `<div class="plbl">Projects</div>${ph || '<div style="font-size:12px;color:var(--fa);">No projects logged.</div>'}`;
+        }
+        const blkH = p.submitted === false ? `<div class="miss">Check-in not submitted</div>` :
+          (p.projs.some(x => !x.note) && p.role === 'c' ? '' : '');
+        card.innerHTML = `<div class="pch"><div class="pav" style="background:${c.bg};color:${c.fg};">${p.ini}</div><div><div class="pnt">${p.name}</div><div class="prt">${p.role === 'po' ? 'Project owner' : p.role === 'pm' ? 'Project manager' : 'Contributor'}</div></div>${emojiHTML}</div>${avTagHTML}${schedHTML}${contentHTML}${blkH}`;
+        grid.appendChild(card);
+      });
+    }
+
+    // ALLOC GRID
+    const allocEdits = {};
+    const _allocTimers = {};
+    function buildAllocGrid() {
+      const container = document.getElementById('aplist'); container.innerHTML = '';
+      PROJECTS.filter(p => !p.dormant).forEach((proj, pi) => {
+        const contrib = PEOPLE.filter(p => p.projs.some(x => x.p.toLowerCase().includes(proj.name.toLowerCase().slice(0, 10))));
+        const totH = contrib.reduce((s, p) => { const x = p.projs.find(x => x.p.toLowerCase().includes(proj.name.toLowerCase().slice(0, 10))); return s + (x ? x.nextH : 0); }, 0);
+        const hasCelebrate = !!proj.celebrate; const hasDecision = !!proj.decision;
+        const sec = document.createElement('div'); sec.className = 'apsec';
+        const phaseOpts = ['', 'Ideation', 'Scoping', 'Planning', 'Development', 'Execution', 'Research', 'Delivery', 'Evaluation', 'Finalization'].map(ph => `<option${ph === proj.phase ? ' selected' : ''}>${ph}</option>`).join('');
+        const phaseInput = `<select class="aphase" onchange="proj.phase=this.value;fetch('/api/projects/${proj.id}',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({phase:this.value,editor:currentEditor||'system'})});event.stopPropagation();" style="width:110px;" onclick="event.stopPropagation();">${phaseOpts}</select>`;
+        const indicators = `<div class="apinds">${hasCelebrate ? `<span class="ind-chat" title="${proj.celebrate}">💬 Discuss/Celebrate</span>` : ''} ${hasDecision ? `<span class="ind-flag" title="${proj.decision}">🚩 Decision needed</span>` : ''}</div>`;
+        const head = document.createElement('div'); head.className = 'aphead';
+        const statusDots = ['green', 'amber', 'red', 'gray'].map(s => `<span onclick="event.stopPropagation();changeAllocStatus(${proj.id},'${s}')" title="${{ green: 'On track', amber: 'Needs discussion', red: 'Urgent', gray: 'Dormant' }[s]}" style="width:11px;height:11px;border-radius:50%;background:${SC[s]};display:inline-block;cursor:pointer;outline:${proj.status === s ? '2px solid var(--tx)' : 'none'};outline-offset:1px;flex-shrink:0;transition:outline .1s;"></span>`).join('');
+        head.innerHTML = `<span class="sdlg" style="background:${SC[proj.status]};" id="ag-dot-${proj.id}"></span><span class="aptitle">${proj.name}</span>${indicators}<div style="display:flex;gap:4px;align-items:center;" id="ag-dots-${proj.id}">${statusDots}</div>${phaseInput}<span class="apmeta">${totH}h proj.</span>${contrib.length === 0 ? '<span class="apmeta" style="color:var(--rd);">unallocated</span>' : ''}<button onclick="event.stopPropagation();openProjTeamEdit(${proj.id})" style="font-size:11px;color:var(--bl);background:transparent;border:0.5px solid rgba(26,95,168,.25);border-radius:var(--r);padding:2px 7px;cursor:pointer;margin-left:4px;flex-shrink:0;">⚙ Edit project</button><span class="apchev">▾</span>`;
+        head.onclick = (e) => { if (e.target.classList.contains('aphase')) return; const b = sec.querySelector('.apbody'); b.classList.toggle('open'); head.querySelector('.apchev').textContent = b.classList.contains('open') ? '▴' : '▾'; };
+        const body = document.createElement('div'); body.className = 'apbody';
+        const hr = document.createElement('div'); hr.className = 'aprow aph';
+        hr.innerHTML = `<div class="apc hc">Contributor</div><div class="apc hc">Hrs nxt wk</div><div class="apc hc">Note</div><div class="apc hc">Attribution</div>`;
+        body.appendChild(hr);
+        contrib.forEach((person, ci) => {
+          const pr = person.projs.find(x => x.p.toLowerCase().includes(proj.name.toLowerCase().slice(0, 10)));
+          const ek = `${proj.id}-${person.name}`.replace(/[^a-z0-9]/gi, '_');
+          const eInfo = allocEdits[ek];
+          const c = AVC[ci % AVC.length];
+          const row = document.createElement('div'); row.className = 'aprow';
+          row.innerHTML = `
+        <div class="apc"><div class="appers"><span class="av" style="background:${c.bg};color:${c.fg};">${person.ini}</span><div><div style="font-size:12px;font-weight:500;">${person.name}</div><span class="avtag" style="background:${AVTAGBG[person.avail]};color:${AVTAGFG[person.avail]};padding:1px 6px;font-size:10px;">${person.availTxt}</span></div></div></div>
+        <div class="apc"><input class="aphi" type="number" value="${pr ? pr.nextH : 0}" min="0" onchange="recEdit('${ek}',this,null,${proj.id},${person.id})"></div>
+        <div class="apc"><input class="apni" type="text" placeholder="Note..." value="${pr && pr.note ? pr.note : ''}" onchange="recEdit('${ek}',null,this.value,${proj.id},${person.id})"></div>
+        <div class="apc" id="attr_${ek}">${eInfo ? `<div class="edat"><span class="edby">Edited by ${eInfo.by}</span><span>${eInfo.time}</span></div>` : `<div style="font-size:11px;color:var(--fa);">Contributor projection</div>`}</div>`;
+          body.appendChild(row);
+        });
+        if (proj.celebrate || proj.decision) {
+          const pmNotes = document.createElement('div');
+          pmNotes.style.cssText = 'border-top:0.5px solid var(--b);padding:10px 12px;display:flex;flex-direction:column;gap:8px;';
+          if (proj.celebrate) {
+            const cel = document.createElement('div');
+            cel.style.cssText = 'display:flex;flex-direction:column;gap:3px;';
+            cel.innerHTML = `<div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--fa);font-weight:500;">Coordinate / discuss / celebrate</div><div style="font-size:12px;color:var(--tx);line-height:1.5;background:var(--gb);padding:7px 10px;border-radius:var(--r);">🎉 ${proj.celebrate}</div>`;
+            pmNotes.appendChild(cel);
+          }
+          if (proj.decision) {
+            const dec = document.createElement('div');
+            dec.style.cssText = 'display:flex;flex-direction:column;gap:3px;';
+            dec.innerHTML = `<div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--fa);font-weight:500;">Decision needed</div><div style="font-size:12px;color:var(--tx);line-height:1.5;background:var(--rb);padding:7px 10px;border-radius:var(--r);">🚩 ${proj.decision}</div>`;
+            pmNotes.appendChild(dec);
+          }
+          body.appendChild(pmNotes);
+        }
+        const msec = document.createElement('div'); msec.className = 'mssec';
+        msec.innerHTML = `<div class="dlbl">Milestones & deadlines</div>`;
+        proj.marks.forEach((m, mi) => {
+          const mr = document.createElement('div'); mr.className = 'msrow';
+          mr.innerHTML = `<span class="mstype ${m.t === 'd' ? 'mstype-d' : 'mstype-m'}">${m.t === 'd' ? 'Deadline' : 'Milestone'}</span><span class="mslbl">${m.l}</span><span class="msdate">${m.d}</span>${m.id ? `<button class="ms-ci-rm" onclick="deleteMilestone(${m.id},${proj.id})" title="Delete">×</button>` : ''}`;
+          msec.appendChild(mr);
+        });
+        const addMsBtn = document.createElement('button'); addMsBtn.className = 'acbtn'; addMsBtn.textContent = '+ Add milestone / deadline'; addMsBtn.style.marginLeft = '0';
+        addMsBtn.onclick = () => {
+          if (!currentEditor) { alert('Please select who you are editing as.'); return; }
+          const mr = document.createElement('div'); mr.className = 'msrow';
+          mr.innerHTML = `<select style="flex:1;font-size:11px;padding:3px 6px;"><option value="m">Milestone</option><option value="d">Deadline</option></select><input type="text" placeholder="Label..." style="flex:2;font-size:11px;padding:3px 6px;"><input type="date" style="flex:1.5;font-size:11px;padding:3px 6px;"><button onclick="saveMilestone(this,${proj.id})" style="font-size:11px;padding:2px 8px;border:0.5px solid var(--gn);border-radius:var(--r);background:var(--gb);color:var(--gn);cursor:pointer;white-space:nowrap;">Save</button><button class="ms-ci-rm" onclick="this.closest('.msrow').remove()">×</button>`;
+          msec.insertBefore(mr, addMsBtn);
+        };
+        msec.appendChild(addMsBtn);
+        body.appendChild(msec);
+        if (contrib.length > 0) {
+          const tot = document.createElement('div'); tot.className = 'aptot';
+          tot.innerHTML = `<span>${totH}h total projected next week</span>${proj.goal ? `<span style="color:${proj.goalApproved ? 'var(--gn)' : 'var(--am)'};">${proj.goalApproved ? '✓ Goal approved' : 'Goal pending approval'}</span>` : '<span style="color:var(--am);">No goal set</span>'}`;
+          body.appendChild(tot);
+        }
+        const addB = document.createElement('button'); addB.className = 'acbtn'; addB.textContent = '+ Add contributor';
+        addB.onclick = () => {
+          if (!currentEditor) { alert('Please select who you are editing as.'); return; }
+          const opts = PEOPLE.map(p => `<option>${p.name}</option>`).join('');
+          const nr = document.createElement('div'); nr.className = 'aprow';
+          nr.innerHTML = `<div class="apc"><select style="font-size:12px;" data-skip="1"><option>Select contributor...</option>${opts}</select></div><div class="apc"><input class="aphi" type="number" value="0" min="0"></div><div class="apc"><input class="apni" type="text" placeholder="Note..."></div><div class="apc"><div class="edat"><span class="edby">Added by ${currentEditor}</span><span>just now</span></div></div>`;
+          body.insertBefore(nr, addB.parentElement === body ? addB : body.lastChild);
+        };
+        body.appendChild(addB);
+        sec.appendChild(head); sec.appendChild(body); container.appendChild(sec);
+      });
+    }
+    function recEdit(ek, hInput, noteVal, projId, personId) {
+      if (!currentEditor) { alert('Please select who you are editing as.'); return; }
+      const now = new Date(); const ts = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      allocEdits[ek] = { by: currentEditor, time: ts + ' today' };
+      const cell = document.getElementById('attr_' + ek);
+      if (cell) cell.innerHTML = `<div class="edat"><span class="edby">Edited by ${currentEditor}</span><span>${ts} today</span></div>`;
+      if (projId && personId) {
+        clearTimeout(_allocTimers[ek]);
+        _allocTimers[ek] = setTimeout(() => {
+          const payload = { projId, personId, editor: currentEditor };
+          if (hInput !== null && hInput !== undefined) payload.hours = parseInt(hInput.value) || 0;
+          if (noteVal !== null && noteVal !== undefined) payload.note = noteVal;
+          fetch('/api/allocation', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        }, 600);
+      }
+    }
+    function addNewProject() {
+      if (!currentEditor) { alert('Please select who you are editing as.'); return; }
+      const name = prompt('New project name:');
+      if (!name || !name.trim()) return;
+      fetch('/api/projects', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name.trim(), editor: currentEditor }) })
+        .then(r => r.json())
+        .then(proj => {
+          PROJECTS.push(proj);
+          PNAMES = PROJECTS.map(p => p.name);
+          buildTable();
+          buildAllocGrid();
+          buildContributorForm();
+          buildPMForm();
+          buildPOForm();
+          updateStatusCounts();
+        });
+    }
+
+    function openProjTeamEdit(projId) {
+      const projsBtn = document.querySelector('.tnb[onclick*="projects"]');
+      switchView('projects', projsBtn);
+      switchProjTab('table', document.querySelector('.ptb'));
+      setTimeout(() => {
+        const tr = document.querySelector(`tr[data-id="${projId}"]`);
+        if (!tr) return;
+        toggleDet(projId, tr, true);
+      }, 80);
+    }
+
+    // CHECK-IN FORMS
+    function buildContributorForm() {
+      const el = document.getElementById('form-c');
+      const dayGrid = DAYS.map(d => `<div class="cdayci on" data-day="${d}" onclick="toggleCDay(this)"><div class="cdayn">${d}</div><div class="cdayblocks">${['AM', 'Aft', 'Late'].map((bl, bi) => `<div class="cdayblock on" onclick="event.stopPropagation();toggleCBlock(this)">${bl}</div>`).join('')}</div></div>`).join('');
+      const projOpts = '<option value="">Select project...</option>' + PNAMES.map(p => `<option>${p}</option>`).join('');
+      el.innerHTML = `
+    <div class="cib"><div class="cit">How are you feeling?</div><div class="emojis"><span class="emoj" onclick="selEmoji(this)">😊</span><span class="emoj" onclick="selEmoji(this)">⚡</span><span class="emoj" onclick="selEmoji(this)">😐</span><span class="emoj" onclick="selEmoji(this)">😴</span><span class="emoj" onclick="selEmoji(this)">🤯</span></div></div>
+    <div class="cib"><div class="cit">Your schedule — week 18</div><div style="font-size:12px;color:var(--mu);margin-bottom:8px;">Default shown. Tap a block to toggle on/off.</div><div class="sgci">${dayGrid}</div><textarea placeholder="Any changes from your default? Remote, travelling, unusual hours..." style="min-height:34px;"></textarea></div>
+    <div class="cib"><div class="cit">Availability</div><div class="fl"><div class="flr"><div class="fll">How open are you?</div><div class="pr"><button class="pill pill-r" onclick="selPill(this,'av-c')">Overloaded</button><button class="pill pill-a" onclick="selPill(this,'av-c')">Not open</button><button class="pill pill-a sel" onclick="selPill(this,'av-c')">Open — small tasks</button><button class="pill pill-g" onclick="selPill(this,'av-c')">Open — projects</button></div></div><div class="flr" style="max-width:150px;"><div class="fll">Available hours</div><input type="number" placeholder="e.g. 4"></div></div></div>
+    <div class="cib"><div class="cit">Projects this week</div><div id="c-projs"><div class="pb"><div class="g3" style="margin-bottom:7px;"><select>${projOpts}</select><input type="number" placeholder="Hours this wk"><input type="number" placeholder="Est. next wk"></div><textarea placeholder="What did you work on? What are you picking up next week?"></textarea></div></div><button class="addb" onclick="addCProj()">+ Add project</button></div>
+    <div class="cib"><div class="cit">Blockers</div><textarea placeholder="Anything blocking you? What would help?"></textarea></div>
+    <button class="subb" onclick="submitCheckin('c')">Submit Friday check-in</button>`;
+    }
+    function buildPMForm() {
+      const el = document.getElementById('form-pm');
+      const projOpts = '<option value="">Select your project...</option>' + PNAMES.map(p => `<option>${p}</option>`).join('');
+      const contOpts = '<option value="">Contributor...</option>' + PEOPLE.map(p => `<option>${p.name}</option>`).join('');
+      el.innerHTML = `
+    <div class="cib"><div class="cit">How are you feeling?</div><div class="emojis"><span class="emoj" onclick="selEmoji(this)">😊</span><span class="emoj" onclick="selEmoji(this)">⚡</span><span class="emoj" onclick="selEmoji(this)">😐</span><span class="emoj" onclick="selEmoji(this)">😴</span><span class="emoj" onclick="selEmoji(this)">🤯</span></div></div>
+    <div class="cib"><div class="cit">Availability</div><div class="pr"><button class="pill pill-r" onclick="selPill(this,'av-pm')">Overloaded</button><button class="pill pill-a sel" onclick="selPill(this,'av-pm')">Not open</button><button class="pill pill-a" onclick="selPill(this,'av-pm')">Open — small tasks</button><button class="pill pill-g" onclick="selPill(this,'av-pm')">Open — projects</button></div></div>
+    <div class="cib"><div class="cit">Your presence this week</div><textarea placeholder="What do you want the team to know about your week?"></textarea></div>
+    <div class="tip-box">For adjusting contributor hours and tasks, go to <strong>Allocation → Allocation grid</strong> and edit directly there. Come back here for status, goals, and milestones.</div>
+    <div id="pm-projs">
+      <div class="cib">
+        <div class="cit">Project update</div>
+        <div class="fl">
+          <div class="flr"><div class="fll">Project</div><select>${projOpts}</select></div>
+          <div class="flr"><div class="fll">Current phase</div><select><option value="">Select phase...</option><option>Ideation</option><option>Scoping</option><option>Planning</option><option>Development</option><option>Execution</option><option>Research</option><option>Delivery</option><option>Evaluation</option><option>Finalization</option></select></div>
+          <div class="flr"><div class="fll">Milestones & deadlines</div><div id="pm-ms-0"></div><button class="addb" onclick="addPMMs('pm-ms-0')">+ Add milestone / deadline</button></div>
+          <div class="flr"><div class="fll">Status this week</div><div class="pr"><button class="pill pill-g sel" onclick="selPill(this,'st-0')">On track</button><button class="pill pill-a" onclick="selPill(this,'st-0')">Needs discussion</button><button class="pill pill-r" onclick="selPill(this,'st-0')">Urgent</button></div></div>
+          <div class="flr"><div class="fll">Weekly status note</div><textarea placeholder="What happened this week? Any risks or blockers?"></textarea></div>
+          <div class="flr"><div class="fll">Monthly goal — confirm or update</div><input type="text" placeholder="What does done look like this month?"><div class="goal-pend">This will be sent to the PO for approval. Projects without an approved goal are flagged on the dashboard.</div></div>
+          <div class="flr"><div class="fll">Anything to coordinate, discuss or celebrate?</div><textarea placeholder="Blockers, wins, things to bring to the group..."></textarea></div>
+          <div class="flr"><div class="fll">What needs a decision before things can move forward?</div><textarea placeholder="What is stuck and needs a directional call from leadership?"></textarea></div>
+        </div>
+      </div>
+    </div>
+    <button class="addb" style="margin-bottom:10px;" onclick="addPMProj()">+ Add another project</button>
+    <div class="cib" style="border-color:rgba(192,57,43,.2);background:var(--rb);">
+      <div class="cit" style="color:var(--rd);">For leadership</div>
+      <div class="flr"><div class="fll" style="color:var(--rd);font-weight:500;">Anything else on your plate that needs direction, scoping, or a decision from leadership?</div><textarea placeholder="New work, inbound requests, conversations that need a yes/no or a home..." style="background:var(--sf);"></textarea></div>
+    </div>
+    <button class="subb" onclick="submitCheckin('pm')">Submit Monday check-in</button>`;
+    }
+    function buildPOForm() {
+      const el = document.getElementById('form-po');
+      const projOpts = '<option value="">Select project...</option>' + PNAMES.map(p => `<option>${p}</option>`).join('');
+      const pendingGoals = PROJECTS.filter(p => !p.goalApproved && !p.dormant && p.goal);
+      const gaHTML = pendingGoals.length ? pendingGoals.map((p, i) => `<div class="pb" style="margin-bottom:8px;"><div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span class="sdlg" style="background:${SC[p.status]};"></span><span style="font-size:13px;font-weight:500;">${p.name}</span><span class="bdg bdg-pnd" style="margin-left:auto;">Pending</span></div><div style="font-size:12px;color:var(--mu);margin-bottom:8px;">PM proposed: <em>"${p.goal}"</em></div><div class="pr" style="margin-bottom:8px;"><button class="pill pill-g" onclick="selPill(this,'ga-${i}')">Approve</button><button class="pill pill-a" onclick="selPill(this,'ga-${i}')">Adjust</button><button class="pill pill-r" onclick="selPill(this,'ga-${i}')">Reject</button></div><textarea placeholder="Notes or adjusted goal text..."></textarea></div>`).join('') : '<div style="font-size:12px;color:var(--fa);">No goals pending approval.</div>';
+      el.innerHTML = `
+    <div class="cib"><div class="cit">How are you feeling?</div><div class="emojis"><span class="emoj" onclick="selEmoji(this)">😊</span><span class="emoj" onclick="selEmoji(this)">⚡</span><span class="emoj" onclick="selEmoji(this)">😐</span><span class="emoj" onclick="selEmoji(this)">😴</span><span class="emoj" onclick="selEmoji(this)">🤯</span></div></div>
+    <div class="cib"><div class="cit">Your presence this week</div><textarea style="min-height:72px;" placeholder="What do you want the team to know about your week?"></textarea></div>
+    <div class="cib"><div class="cit">Milestones & deadlines — all projects</div><div style="font-size:12px;color:var(--mu);margin-bottom:10px;">Review or add milestones across any project.</div>
+      <div class="flr" style="margin-bottom:10px;"><div class="fll">Project</div><select>${projOpts}</select></div>
+      <div id="po-ms"></div>
+      <button class="addb" onclick="addPMMs('po-ms')">+ Add milestone / deadline</button>
+    </div>
+    <div class="cib"><div class="cit">Tuesday agenda</div><div class="fl"><div class="flr"><div class="fll">Anything new — jobs, initiatives, or ideas not yet on the board?</div><textarea placeholder="New work, ideas, or conversations that need a home or a decision..."></textarea></div></div></div>
+    <div class="cib"><div class="cit">Monthly goal approvals</div>${gaHTML}</div>
+    <button class="subb" onclick="submitCheckin('po')">Submit Tuesday prep</button>`;
+    }
+
+    function addPMMs(containerId) {
+      const c = document.getElementById(containerId); if (!c) return;
+      const row = document.createElement('div'); row.className = 'ms-ci-row';
+      row.innerHTML = `<select style="flex:1;font-size:12px;" data-skip="1"><option value="m">Milestone</option><option value="d">Deadline</option></select><input type="text" placeholder="Label..."><input type="date"><button class="ms-ci-rm" onclick="this.closest('.ms-ci-row').remove()">×</button>`;
+      c.appendChild(row);
+    }
+
+    let pmProjN = 1;
+    function addPMProj() {
+      const cont = document.getElementById('pm-projs');
+      const tmpl = cont.querySelector('.cib').cloneNode(true);
+      const newStId = 'st-' + pmProjN;
+      const msId = 'pm-ms-' + pmProjN;
+      tmpl.querySelectorAll('input,textarea').forEach(el => el.value = '');
+      tmpl.querySelectorAll('.pr .pill').forEach((p, i) => { p.classList.remove('sel'); if (i === 0) p.classList.add('sel'); p.setAttribute('onclick', `selPill(this,'${newStId}')`); });
+      const msDiv = tmpl.querySelector('[id^="pm-ms"]'); if (msDiv) { msDiv.id = msId; msDiv.innerHTML = ''; }
+      const addMsB = tmpl.querySelector('.addb'); if (addMsB) addMsB.setAttribute('onclick', `addPMMs('${msId}')`);
+      const projOpts = '<option value="">Select your project...</option>' + PNAMES.map(p => `<option>${p}</option>`).join('');
+      tmpl.querySelectorAll('select:not([data-skip])').forEach(s => s.innerHTML = projOpts);
+      cont.appendChild(tmpl); pmProjN++;
+    }
+
+    let cProjN = 1;
+    function addCProj() {
+      const cont = document.getElementById('c-projs');
+      const tmpl = cont.querySelector('.pb').cloneNode(true);
+      tmpl.querySelectorAll('input,textarea').forEach(el => el.value = '');
+      const projOpts = '<option value="">Select project...</option>' + PNAMES.map(p => `<option>${p}</option>`).join('');
+      tmpl.querySelectorAll('select').forEach(s => s.innerHTML = projOpts);
+      cont.appendChild(tmpl); cProjN++;
+    }
+
+    // MONTHLY REVIEW DATA — populated from API on init
+    let REVIEW_DATA = {
+      '2026-03': {
+        label: 'March 2026', saved: true, savedOn: '1 Apr 2026',
+        projects: [
+          { name: 'KogniKit KU', status: 'green', goal: 'Complete CFA pipeline and submit for review', outcome: 'hit', statusTrail: ['green', 'green', 'amber', 'green'], hoursLogged: 38, hoursProjected: 40, celebrate: 'Pipeline submitted ahead of schedule', decision: '' },
+          { name: 'Tech Circle Innovation', status: 'green', goal: 'Conduct 3 stakeholder interviews', outcome: 'partial', statusTrail: ['amber', 'green', 'green', 'green'], hoursLogged: 22, hoursProjected: 28, celebrate: '', decision: '' },
+          { name: 'CHI In-house RAG', status: 'amber', goal: 'Deploy internal RAG with 10 test queries', outcome: 'missed', statusTrail: ['amber', 'amber', 'red', 'amber'], hoursLogged: 18, hoursProjected: 24, celebrate: '', decision: 'Needed more dev time than scoped — revisit estimate' },
+          { name: 'Operations Task Force', status: 'green', goal: 'First draft of handbook structure', outcome: 'hit', statusTrail: ['green', 'green', 'green', 'green'], hoursLogged: 14, hoursProjected: 16, celebrate: 'Morten delivered full structure two days early', decision: '' },
+          { name: 'ESG Project', status: 'amber', goal: 'Submit 3 page abstract', outcome: 'hit', statusTrail: ['amber', 'amber', 'amber', 'green'], hoursLogged: 9, hoursProjected: 8, celebrate: 'Abstract submitted on time!', decision: '' },
+          { name: 'FERC bot', status: 'amber', goal: 'Complete two page abstract draft', outcome: 'partial', statusTrail: ['green', 'amber', 'amber', 'amber'], hoursLogged: 12, hoursProjected: 16, celebrate: '', decision: '' },
+        ],
+        people: [
+          { name: 'Frederik Brosbøl Kjeldsen', totalH: 37, moH: 148, logged: 134, flag: 'ok' },
+          { name: 'Morten Røndal Olsen', totalH: 18, moH: 72, logged: 68, flag: 'ok' },
+          { name: 'Thomas Halgaard', totalH: 37, moH: 148, logged: 140, flag: 'ok' },
+          { name: 'Bianka Szöllösi', totalH: 37, moH: 148, logged: 88, flag: 'under' },
+          { name: 'Casper Thylkjær', totalH: 15, moH: 60, logged: 58, flag: 'ok' },
+          { name: 'Alexander Velev', totalH: 15, moH: 60, logged: 62, flag: 'over' },
+          { name: 'Sára Szabó', totalH: 15, moH: 60, logged: 55, flag: 'ok' },
+          { name: 'Lærke Thansen', totalH: 15, moH: 60, logged: 44, flag: 'under' },
+          { name: 'Mille Berg', totalH: 15, moH: 60, logged: 57, flag: 'ok' },
+        ],
+        forwardGoals: [], upcomingDeadlines: [],
+      },
+      '2026-04': {
+        label: 'April 2026', saved: false, savedOn: null,
+        projects: [
+          { name: 'CABKA Project', status: 'green', goal: 'Complete phase 1 technical setup', outcome: 'pending', statusTrail: ['green', 'green', 'green', null], hoursLogged: 44, hoursProjected: 48, celebrate: '', decision: '', upcomingDeadlines: [{ l: 'Handover', d: '2026-06-15', weeks: 8 }] },
+          { name: 'KogniKit KU', status: 'green', goal: 'Finish data analysis, decouple game instances', outcome: 'pending', statusTrail: ['green', 'green', 'green', null], hoursLogged: 38, hoursProjected: 40, celebrate: '', decision: '', upcomingDeadlines: [{ l: 'Pipeline done', d: '2026-04-30', weeks: 1 }] },
+          { name: 'CHI In-house RAG', status: 'amber', goal: '20 queries evaluated by CHI staff', outcome: 'pending', statusTrail: ['amber', 'amber', 'amber', null], hoursLogged: 20, hoursProjected: 28, celebrate: '', decision: '', upcomingDeadlines: [{ l: 'Eval complete', d: '2026-05-07', weeks: 2 }] },
+          { name: 'CHI Chatbot Standardization', status: 'amber', goal: 'Present dev roadmap to Jacob for approval', outcome: 'pending', statusTrail: ['green', 'amber', 'amber', null], hoursLogged: 6, hoursProjected: 12, celebrate: '', decision: 'Need Jacob to block time to review roadmap', upcomingDeadlines: [{ l: 'Roadmap presented', d: '2026-04-30', weeks: 1 }] },
+          { name: 'ESG Project', status: 'amber', goal: '3 page abstract 17/4', outcome: 'hit', statusTrail: ['amber', 'amber', 'green', null], hoursLogged: 7, hoursProjected: 8, celebrate: 'Abstract submitted on time!', decision: '', upcomingDeadlines: [] },
+          { name: 'FERC bot', status: 'amber', goal: 'Two page abstract — conference in May', outcome: 'pending', statusTrail: ['amber', 'amber', 'amber', null], hoursLogged: 16, hoursProjected: 20, celebrate: '', decision: '', upcomingDeadlines: [{ l: 'Abstract', d: '2026-04-20', weeks: 0 }, { l: 'Conference', d: '2026-05-20', weeks: 4 }] },
+          { name: 'Tech Circle Innovation', status: 'green', goal: 'Prepare interview guide, run first interviews', outcome: 'pending', statusTrail: ['green', 'green', 'green', null], hoursLogged: 24, hoursProjected: 28, celebrate: '', decision: '', upcomingDeadlines: [{ l: 'Report draft', d: '2026-06-01', weeks: 6 }] },
+          { name: 'Operations Task Force', status: 'green', goal: 'Employee handbook with SOPs before summer', outcome: 'pending', statusTrail: ['green', 'green', 'green', null], hoursLogged: 14, hoursProjected: 16, celebrate: '', decision: 'Need Jacob to approve onboarding SOP', upcomingDeadlines: [{ l: 'Handbook done', d: '2026-06-30', weeks: 10 }] },
+        ],
+        people: [
+          { name: 'Frederik Brosbøl Kjeldsen', totalH: 37, moH: 148, logged: 68, projected: 148, flag: 'ok' },
+          { name: 'Morten Røndal Olsen', totalH: 18, moH: 72, logged: 28, projected: 72, flag: 'ok' },
+          { name: 'Thomas Halgaard', totalH: 37, moH: 148, logged: 56, projected: 140, flag: 'ok' },
+          { name: 'Bianka Szöllösi', totalH: 37, moH: 148, logged: 40, projected: 56, flag: 'under' },
+          { name: 'Casper Thylkjær', totalH: 15, moH: 60, logged: 28, projected: 56, flag: 'ok' },
+          { name: 'Eleni Karydi', totalH: 15, moH: 60, logged: 22, projected: 60, flag: 'ok' },
+          { name: 'Alexander Velev', totalH: 15, moH: 60, logged: 28, projected: 56, flag: 'ok' },
+          { name: 'Alexis Vrielynck', totalH: 37, moH: 148, logged: 36, projected: 148, flag: 'ok' },
+          { name: 'Sára Szabó', totalH: 15, moH: 60, logged: 24, projected: 60, flag: 'ok' },
+          { name: 'Lærke Thansen', totalH: 15, moH: 60, logged: 20, projected: 44, flag: 'under' },
+          { name: 'Mille Berg', totalH: 15, moH: 60, logged: 18, projected: 44, flag: 'ok' },
+          { name: 'Chloe Lucas', totalH: 37, moH: 148, logged: 44, projected: 148, flag: 'ok' },
+        ],
+      }
+    };
+    let savedReviews = { '2026-03': true };
+    let currentReviewMonth = '2026-04';
+
+    function saveReview(month) {
+      fetch('/api/reviews/' + month + '/save', { method: 'POST' })
+        .then(r => r.json())
+        .then(res => {
+          if (REVIEW_DATA[month]) { REVIEW_DATA[month].saved = true; REVIEW_DATA[month].savedOn = res.savedOn; }
+          savedReviews[month] = true;
+          buildReview(month);
+        });
+    }
+
+    function buildReview(month) {
+      currentReviewMonth = month;
+      const container = document.getElementById('review-container');
+      const data = REVIEW_DATA[month];
+      const allMonths = Object.keys(REVIEW_DATA).sort();
+      const isCurrentMonth = month === allMonths[allMonths.length - 1];
+      const savedMonths = Object.keys(REVIEW_DATA).sort().reverse();
+      const monthOpts = savedMonths.map(m => `<option value="${m}"${m === month ? ' selected' : ''}>${REVIEW_DATA[m].label}${REVIEW_DATA[m].saved ? ' (saved)' : ''}</option>`).join('');
+      const savedBadge = data.saved ? `<span class="rv-saved-badge">Saved ${data.savedOn}</span>` : '';
+      const statusColors = { green: 'var(--gn)', amber: 'var(--am)', red: 'var(--rd)', gray: 'var(--dm)' };
+      const outcomeHTML = (outcome) => {
+        const map = { hit: 'Hit ✓', partial: 'Partial', missed: 'Missed', pending: 'In progress' };
+        const cls = { hit: 'outcome-hit', partial: 'outcome-partial', missed: 'outcome-missed', pending: 'outcome-pending' };
+        return `<span class="outcome-pill ${cls[outcome] || 'outcome-pending'}">${map[outcome] || '—'}</span>`;
+      };
+      const trailHTML = (trail) => trail.map(s => s ? `<span class="rv-dot" style="background:${statusColors[s] || 'var(--b)'};" title="${s}"></span>` : `<span class="rv-dot" style="background:var(--b);border:0.5px solid var(--bm);" title="Not yet"></span>`).join('');
+
+      let retroSection = '';
+      let forwardSection = '';
+
+      if (!isCurrentMonth) {
+        const projRows = data.projects.map(p => {
+          const urgentDeadline = p.upcomingDeadlines && p.upcomingDeadlines.some(d => d.weeks <= 2 && (p.status === 'amber' || p.status === 'red'));
+          const hoursGap = p.hoursLogged - p.hoursProjected;
+          const hoursNote = hoursGap > 4 ? `<span class="rv-warn">+${hoursGap}h over</span>` : hoursGap < -4 ? `<span class="rv-flag">${hoursGap}h under</span>` : `<span class="rv-ok">On track</span>`;
+          return `<div class="rv-card">
+        <div class="rv-card-title"><span class="sdlg" style="background:${statusColors[p.status]};"></span>${p.name} ${outcomeHTML(p.outcome)}</div>
+        <div class="rv-card-sub">${p.goal || 'No goal set'}</div>
+        <div class="rv-row"><span class="rv-lbl">Status trail</span><div class="rv-dots">${trailHTML(p.statusTrail)}</div></div>
+        <div class="rv-row"><span class="rv-lbl">Hours logged</span><span class="rv-val">${p.hoursLogged}h</span>${hoursNote}</div>
+        ${p.celebrate ? `<div style="font-size:11px;background:var(--gb);color:var(--gn);padding:5px 8px;border-radius:var(--r);margin-top:7px;">🎉 ${p.celebrate}</div>` : ''}
+        ${p.decision ? `<div style="font-size:11px;background:var(--rb);color:var(--rd);padding:5px 8px;border-radius:var(--r);margin-top:5px;">🚩 ${p.decision}</div>` : ''}
+      </div>`;
+        }).join('');
+        const peopleRows = data.people.map(p => {
+          const pct = Math.round((p.logged / p.moH) * 100);
+          const flagHTML = p.flag === 'over' ? `<span class="rv-flag">Overloaded</span>` : p.flag === 'under' ? `<span class="rv-warn">Underused</span>` : `<span class="rv-ok">Balanced</span>`;
+          return `<div class="rv-people-row">
+        <span class="rv-person-name">${p.name.split(' ').slice(0, 2).join(' ')}</span>
+        <div class="rv-bar-wrap"><div class="rv-bar-fill ${p.flag === 'over' ? 'rv-bar-over' : p.flag === 'ok' ? 'rv-bar-ok' : ''}" style="width:${Math.min(pct, 100)}%;"></div></div>
+        <span class="rv-val" style="width:80px;text-align:right;">${p.logged}h / ${p.moH}h</span>
+        ${flagHTML}
+      </div>`;
+        }).join('');
+        retroSection = `
+      <div class="rv-section">
+        <div class="rv-section-title">Last month — retrospective</div>
+        <div class="rv-section-sub">How did projects and people perform in ${data.label}?</div>
+        <div class="rv-grid">${projRows}</div>
+        <div class="rv-section-title" style="font-size:13px;margin-bottom:10px;">People</div>
+        <div class="rv-card">${peopleRows}</div>
+      </div>`;
+      }
+
+      if (isCurrentMonth) {
+        const projRows = data.projects.map(p => {
+          const deadlinesSoon = (p.upcomingDeadlines || []).filter(d => d.weeks <= 2);
+          const deadlinesMonth = (p.upcomingDeadlines || []).filter(d => d.weeks <= 4);
+          const isFlagged = deadlinesSoon.length > 0 && (p.status === 'amber' || p.status === 'red');
+          const dlHTML = deadlinesMonth.map(d => `<div style="font-size:11px;color:${d.weeks <= 2 ? 'var(--rd)' : 'var(--am)'};margin-top:3px;">${d.weeks <= 0 ? '⚠ Overdue' : d.weeks <= 2 ? '⚠ ' + d.l + ' in ' + d.weeks + 'w' : d.l + ' in ' + d.weeks + 'w'}</div>`).join('');
+          const hoursGap = p.hoursLogged - p.hoursProjected;
+          const hoursNote = hoursGap > 4 ? `<span class="rv-warn">+${hoursGap}h over</span>` : hoursGap < -4 ? `<span class="rv-flag">${hoursGap}h behind</span>` : `<span class="rv-ok">On track</span>`;
+          return `<div class="rv-card" style="${isFlagged ? 'border-color:var(--rd);' : ''}">
+        <div class="rv-card-title"><span class="sdlg" style="background:${statusColors[p.status]};"></span>${p.name} ${isFlagged ? '<span class="rv-flag">At risk</span>' : ''}</div>
+        <div class="rv-card-sub">${p.goal || 'No goal set'}${!p.goal ? '' : p.outcome === 'hit' ? ' — Hit ✓' : ''}</div>
+        <div class="rv-row"><span class="rv-lbl">Status trail</span><div class="rv-dots">${trailHTML(p.statusTrail)}</div></div>
+        <div class="rv-row"><span class="rv-lbl">Hours so far</span><span class="rv-val">${p.hoursLogged}h</span>${hoursNote}</div>
+        ${dlHTML}
+        ${p.celebrate ? `<div style="font-size:11px;background:var(--gb);color:var(--gn);padding:5px 8px;border-radius:var(--r);margin-top:7px;">🎉 ${p.celebrate}</div>` : ''}
+        ${p.decision ? `<div style="font-size:11px;background:var(--rb);color:var(--rd);padding:5px 8px;border-radius:var(--r);margin-top:5px;">🚩 ${p.decision}</div>` : ''}
+      </div>`;
+        }).join('');
+        const peopleRows = data.people.map(p => {
+          const allocPct = Math.round((p.projected / p.moH) * 100);
+          const logPct = Math.round((p.logged / p.moH) * 100);
+          const isOver = allocPct > 105; const isUnder = allocPct < 60;
+          const flagHTML = isOver ? `<span class="rv-flag">Over-allocated</span>` : isUnder ? `<span class="rv-warn">Under-used</span>` : `<span class="rv-ok">Balanced</span>`;
+          return `<div class="rv-people-row">
+        <span class="rv-person-name">${p.name.split(' ').slice(0, 2).join(' ')}</span>
+        <div class="rv-bar-wrap" style="position:relative;">
+          <div class="rv-bar-fill ${isOver ? 'rv-bar-over' : 'rv-bar-ok'}" style="width:${Math.min(allocPct, 100)}%;opacity:.3;"></div>
+          <div style="position:absolute;top:0;left:0;height:6px;width:${Math.min(logPct, 100)}%;background:rgba(26,25,22,0.35);border-radius:3px;"></div>
+        </div>
+        <span class="rv-val" style="width:100px;text-align:right;">${p.logged}h logged · ${p.projected}h alloc</span>
+        ${flagHTML}
+      </div>`;
+        }).join('');
+        forwardSection = `
+      <div class="rv-section">
+        <div class="rv-section-title">This month — ${data.label}</div>
+        <div class="rv-section-sub">Current progress and what's coming up.</div>
+        <div class="rv-grid">${projRows}</div>
+        <div class="rv-section-title" style="font-size:13px;margin-bottom:10px;">People</div>
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px;">Light bar = allocated hours for month. Dark bar = logged so far.</div>
+        <div class="rv-card">${peopleRows}</div>
+      </div>`;
+      }
+
+      if (!isCurrentMonth) {
+        const latestMo = Object.keys(REVIEW_DATA).sort().pop();
+        const fwData = REVIEW_DATA[latestMo] || {};
+        const fwProj = fwData.projects.filter(p => p.upcomingDeadlines && p.upcomingDeadlines.some(d => d.weeks <= 4)).map(p => `<div class="rv-row"><span class="rv-lbl">${p.name}</span><div>${p.upcomingDeadlines.filter(d => d.weeks <= 4).map(d => `<span style="font-size:11px;color:${d.weeks <= 2 ? 'var(--rd)' : 'var(--am)'};">${d.l} (${d.weeks}w)</span>`).join(', ')}</div></div>`).join('');
+        forwardSection = `<div class="rv-divider"></div>
+      <div class="rv-section">
+        <div class="rv-section-title">Forward look — April 2026</div>
+        <div class="rv-section-sub">Upcoming deadlines and milestones in the next 4 weeks.</div>
+        <div class="rv-card">${fwProj || '<div style="font-size:12px;color:var(--fa);">No urgent deadlines in the next 4 weeks.</div>'}</div>
+      </div>`;
+      }
+
+      container.innerHTML = `
+    <div class="rv-controls">
+      <select class="rv-sel" onchange="buildReview(this.value)">${monthOpts}</select>
+      <button class="rv-save" onclick="saveReview('${month}')">Save this review</button>
+      ${savedBadge}
+      <span style="font-size:11px;color:var(--fa);margin-left:auto;">Saved reviews can be retrieved at any time from the month selector.</span>
+    </div>
+    ${retroSection}${forwardSection}`;
+    }
+    function changeAllocStatus(projId, newStatus) {
+      if (!currentEditor) { alert('Please select who you are editing as (top right).'); return; }
+      const p = PROJECTS.find(x => x.id === projId);
+      p.status = newStatus;
+      fetch('/api/projects/' + projId, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: newStatus, editor: currentEditor }) });
+      const now = new Date();
+      const ts = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+      teamEdits[projId] = { by: currentEditor, time: ts + ' today' };
+      const mainDot = document.getElementById('ag-dot-' + projId);
+      if (mainDot) mainDot.style.background = SC[newStatus];
+      const dotsWrap = document.getElementById('ag-dots-' + projId);
+      if (dotsWrap) {
+        dotsWrap.querySelectorAll('span').forEach((sp, i) => {
+          const s = ['green', 'amber', 'red', 'gray'][i];
+          sp.style.outline = s === newStatus ? '2px solid var(--tx)' : 'none';
+        });
+      }
+      buildTable();
+      const sl = { green: 'On track', amber: 'Needs discussion', red: 'Urgent', gray: 'Dormant' };
+      const flash = document.createElement('div');
+      flash.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--tx);color:#fff;font-size:13px;font-family:\'DM Sans\',sans-serif;padding:10px 18px;border-radius:10px;z-index:999;transition:opacity .4s;';
+      flash.textContent = `${p.name} → ${sl[newStatus]} · ${currentEditor}`;
+      document.body.appendChild(flash);
+      setTimeout(() => { flash.style.opacity = '0'; setTimeout(() => flash.remove(), 400); }, 2000);
+    }
+
+    // CHECK-IN LOCK
+    function showCheckinLock(weekLabel) {
+      hideCiLock();
+      const view = document.getElementById('view-checkin');
+      if (!view) return;
+      view.style.position = 'relative';
+      const overlay = document.createElement('div');
+      overlay.id = 'ci-lock-overlay';
+      overlay.style.cssText = 'position:absolute;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:50;';
+      overlay.innerHTML = `<div style="text-align:center;padding:40px 48px;background:var(--sf);border:0.5px solid var(--bm);border-radius:var(--rl);max-width:380px;box-shadow:0 2px 12px rgba(0,0,0,.06);">
+        <div style="font-size:44px;margin-bottom:12px;color:var(--gn);">✓</div>
+        <div style="font-size:17px;font-weight:500;margin-bottom:6px;">Check-in submitted</div>
+        <div style="font-size:13px;color:var(--mu);margin-bottom:6px;">${weekLabel} · recorded as <strong>${currentEditor}</strong></div>
+        <div style="font-size:11px;color:var(--fa);">Your status is updated on the left. See you next week!</div>
+      </div>`;
+      view.appendChild(overlay);
+    }
+    function hideCiLock() {
+      const el = document.getElementById('ci-lock-overlay');
+      if (el) el.remove();
+    }
+    function checkCiLock() {
+      hideCiLock();
+      if (!currentEditor) return;
+      const storedWk = localStorage.getItem('chi-ci-lock-' + currentEditor);
+      if (!storedWk) return;
+      const now = new Date(); const jan1 = new Date(now.getFullYear(), 0, 1);
+      const curWk = 'Wk ' + Math.ceil(((now - jan1) / 864e5 + jan1.getDay() + 1) / 7);
+      if (storedWk === curWk) { showCheckinLock(storedWk); }
+      else { localStorage.removeItem('chi-ci-lock-' + currentEditor); }
+    }
+
+    // INTERACTIONS
+    function switchView(id, btn) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.tnb').forEach(b => b.classList.remove('active'));
+      document.getElementById('view-' + id).classList.add('active');
+      btn.classList.add('active');
+      if (id === 'checkin') checkCiLock();
+    }
+    function switchProjTab(id, btn) {
+      document.getElementById('ptab-table').style.display = id === 'table' ? 'flex' : 'none';
+      document.getElementById('ptab-timeline').style.display = id === 'timeline' ? 'flex' : 'none';
+      document.querySelectorAll('.ptb').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (id === 'timeline') buildTimeline();
+    }
+    function switchAllocTab(id, btn) {
+      document.getElementById('atab-people').style.display = id === 'people' ? 'block' : 'none';
+      document.getElementById('atab-grid').style.display = id === 'grid' ? 'block' : 'none';
+      document.getElementById('atab-review').style.display = id === 'review' ? 'block' : 'none';
+      document.querySelectorAll('.atab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (id === 'review') { const ms = Object.keys(REVIEW_DATA).sort(); buildReview(ms[ms.length - 1] || ''); }
+    }
+    function selMode(m, btn) {
+      document.querySelectorAll('.cimb').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      ['c', 'pm', 'po'].forEach(id => { document.getElementById('form-' + id).style.display = id === m ? 'block' : 'none'; });
+    }
+    function selPill(btn, grp) {
+      btn.closest('.pr').querySelectorAll('.pill').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+    }
+    function selEmoji(el) {
+      el.closest('.emojis').querySelectorAll('.emoj').forEach(e => e.classList.remove('sel'));
+      el.classList.add('sel');
+    }
+    function toggleCDay(el) { el.classList.toggle('on'); }
+    function toggleCBlock(el) { el.classList.toggle('on'); }
+
+    // HELPERS
+    function flashMsg(txt) {
+      const el = document.createElement('div');
+      el.style.cssText = "position:fixed;bottom:24px;right:24px;background:var(--tx);color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;padding:10px 18px;border-radius:var(--rl);z-index:999;transition:opacity .4s;";
+      el.textContent = txt; document.body.appendChild(el);
+      setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 400); }, 2500);
+    }
+
+    function saveMilestone(btn, projId) {
+      const row = btn.closest('.msrow');
+      const type = row.querySelector('select').value;
+      const inputs = row.querySelectorAll('input');
+      const label = inputs[0] ? inputs[0].value.trim() : '';
+      const date = inputs[1] ? inputs[1].value : '';
+      if (!label) { alert('Enter a label.'); return; }
+      fetch('/api/projects/' + projId + '/milestones', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, label, date }) })
+        .then(r => r.json())
+        .then(m => {
+          const p = PROJECTS.find(x => x.id === projId);
+          if (p) p.marks.push({ id: m.id, l: label, t: type, d: date });
+          buildAllocGrid(); buildTimeline();
+        });
+    }
+
+    function deleteMilestone(msId, projId) {
+      if (!confirm('Delete this milestone?')) return;
+      fetch('/api/milestones/' + msId, { method: 'DELETE' }).then(() => {
+        const p = PROJECTS.find(x => x.id === projId);
+        if (p) p.marks = p.marks.filter(m => m.id !== msId);
+        buildAllocGrid(); buildTimeline();
+      });
+    }
+
+    function submitCheckin(type) {
+      if (!currentEditor) { alert('Please select who you are editing as.'); return; }
+      const formEl = document.getElementById('form-' + type);
+      const data = {};
+      formEl.querySelectorAll('input, textarea, select').forEach((el, i) => { if (el.value) data[el.placeholder || el.name || ('f' + i)] = el.value; });
+      const now = new Date(); const jan1 = new Date(now.getFullYear(), 0, 1);
+      const weekLabel = 'Wk ' + Math.ceil(((now - jan1) / 864e5 + jan1.getDay() + 1) / 7);
+      fetch('/api/checkins', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, person: currentEditor, weekLabel, data }) })
+        .then(r => r.json())
+        .then(() => {
+          const person = PEOPLE.find(p => p.name === currentEditor);
+          if (person) { person.submitted = true; person.lastCheckinWeek = weekLabel; }
+          localStorage.setItem('chi-ci-lock-' + currentEditor, weekLabel);
+          showCheckinLock(weekLabel);
+          buildSidebar();
+          buildPeopleLayer();
+        });
+    }
+
+    function updateStatusCounts() {
+      const counts = { green: 0, amber: 0, red: 0, dormant: 0 };
+      PROJECTS.forEach(p => { if (p.dormant) counts.dormant++; else counts[p.status] = (counts[p.status] || 0) + 1; });
+      ['green', 'amber', 'red', 'dormant'].forEach(k => { const el = document.getElementById('cnt-' + k); if (el) el.textContent = counts[k]; });
+      const wH = PROJECTS.filter(p => !p.dormant).reduce((s, p) => s + (p.weekH || 0), 0);
+      const mH = PROJECTS.filter(p => !p.dormant).reduce((s, p) => s + (p.moH || 0), 0);
+      const wEl = document.getElementById('sb-week-h'); if (wEl) wEl.textContent = wH + 'h';
+      const mEl = document.getElementById('sb-mo-h'); if (mEl) mEl.textContent = mH + 'h';
+    }
+
+    // INIT
+    async function init() {
+      try {
+        const data = await fetch('/api/data').then(r => r.json());
+        PROJECTS = data.projects || PROJECTS;
+        PEOPLE = data.people || PEOPLE;
+        STATUS_HISTORY = data.statusHistory || STATUS_HISTORY;
+        REVIEW_DATA = data.reviews || REVIEW_DATA;
+        savedReviews = data.savedReviews || savedReviews;
+        PNAMES = PROJECTS.map(p => p.name);
+        const now = new Date(); const jan1 = new Date(now.getFullYear(), 0, 1);
+        const wk = Math.ceil(((now - jan1) / 864e5 + jan1.getDay() + 1) / 7);
+        document.querySelector('.wkp').textContent = 'Week ' + wk + ' — ' + now.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+        const edsel = document.getElementById('edsel');
+        edsel.innerHTML = '<option value="">Select...</option>' + PEOPLE.filter(p => !p.inactive).map(p => `<option>${p.name}</option>`).join('');
+        updateStatusCounts();
+      } catch (e) { console.error('API load failed, using seed data:', e); }
+      buildTable();
+      buildSidebar();
+      buildPeopleLayer();
+      buildAllocGrid();
+      buildAgenda();
+      buildContributorForm();
+      buildPMForm();
+      buildPOForm();
+    }
+    init();
+  </script>
+</body>
+
+</html>

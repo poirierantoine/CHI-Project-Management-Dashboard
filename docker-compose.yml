@@ -1,0 +1,16 @@
+services:
+  dashboard:
+    build: .
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    volumes:
+      # SQLite file and snapshots live here — persists across restarts and rebuilds
+      - ./data:/app/data
+    restart: unless-stopped
+    env_file:
+      # Copy .env.example to .env and set DASHBOARD_PASS before running
+      - path: .env
+        required: false   # allows running without .env (auth disabled)
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT:-3000}

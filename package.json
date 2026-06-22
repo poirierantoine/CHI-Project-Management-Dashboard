@@ -1,0 +1,14 @@
+{
+  "name": "chi-dashboard",
+  "version": "1.0.0",
+  "description": "CHI Project Management Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.10.0",
+    "express": "^4.18.2",
+    "express-basic-auth": "^1.2.1"
+  }
+}

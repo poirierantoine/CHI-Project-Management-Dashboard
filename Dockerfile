@@ -16,5 +16,5 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY . .
 # /app/data is where SQLite writes its .db file — must be writable
 RUN mkdir -p /app/data
-EXPOSE 3000
+EXPOSE 5020
 CMD ["node", "server.js"]

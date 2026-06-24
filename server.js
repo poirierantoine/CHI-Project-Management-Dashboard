@@ -18,6 +18,9 @@ if (!fs.existsSync(SNAPSHOT_DIR)) fs.mkdirSync(SNAPSHOT_DIR, { recursive: true }
 
 const app = express();
 
+// Strip trailing slash so BASE_PATH=/project-management-dashboard/ and /project-management-dashboard both work
+const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/$/, '');
+
 const DASHBOARD_USER = process.env.DASHBOARD_USER || 'chi';
 const DASHBOARD_PASS = process.env.DASHBOARD_PASS;
 if (!DASHBOARD_PASS) {
@@ -33,7 +36,9 @@ if (DASHBOARD_PASS) {
 }
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// { index: false } prevents express.static from auto-serving index.html — the catch-all below
+// handles that so it can inject the <base> tag for sub-path deployments.
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
@@ -601,8 +606,11 @@ app.delete('/api/admin/snapshots/:id', (req, res) => {
 });
 
 // ─── Catch-all: serve the SPA ─────────────────────────────────────────────────
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('*', (_req, res) => {
+  if (!BASE_PATH) return res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  // Inject <base> tag so relative fetch('api/...') calls resolve under the sub-path
+  const html = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 'utf8');
+  res.send(html.replace('<head>', `<head>\n  <base href="${BASE_PATH}/">`));
 });
 
 const PORT = process.env.PORT || 3000;
